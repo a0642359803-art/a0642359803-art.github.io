@@ -154,7 +154,7 @@ html{overflow-x:hidden;max-width:100%}main,.view,.split>div,.split>aside,.card,.
 <section class="view" id="v-admin"><h2 style="margin-top:0">หลังบ้าน (Admin) </h2><p class="mu">เข้าได้เฉพาะบัญชีที่ถูกตั้งเป็นแอดมินในฐานข้อมูล Supabase เท่านั้น (ระบบเช็กสิทธิ์ที่เซิร์ฟเวอร์)</p><div class="filters" id="atabs"></div><div id="abody"></div></section>
 <section class="view" id="v-gacha"><h2 style="margin-top:0">🎰 สุ่มไอดี</h2><div class="card" style="max-width:560px"><div id="gbox"></div><button class="btn" id="gspin" style="width:100%;margin-top:12px">สุ่มเลย</button><div id="gres" style="text-align:center;margin-top:10px"></div></div></section>
 </main>
-<footer>© GAMING SHOP · เว็บไซต์ Chachaphon · <a href="https://www.instagram.com/Chachaphon_15y/" target="_blank" rel="noopener">Instagram</a> · ติดต่อสอบถามได้ตลอดเวลา<br><a href="https://chachaphon15y.github.io/3092011/" target="_blank" rel="noopener">chachaphon15y.github.io/3092011</a> — เว็บไซต์ของเจ้าของร้าน</footer>
+<footer>© GAMING SHOP · เว็บไซต์ Chachaphon · v5 · <a href="https://www.instagram.com/Chachaphon_15y/" target="_blank" rel="noopener">Instagram</a> · ติดต่อสอบถามได้ตลอดเวลา<br><a href="https://chachaphon15y.github.io/3092011/" target="_blank" rel="noopener">chachaphon15y.github.io/3092011</a> — เว็บไซต์ของเจ้าของร้าน</footer>
 
 <div class="ov" id="o-auth"><div class="md"><button class="x" data-close>×</button><div class="tabs"><button class="btn g" id="tl">เข้าสู่ระบบ</button><button class="btn g" id="tr">สมัครสมาชิก</button></div>
 <div id="fl"><label class="f">อีเมล</label><input class="in" id="lu" autocomplete="username"><label class="f">Password</label><div class="row"><input class="in" id="lp" type="password" autocomplete="current-password"><button class="btn g sm" data-eye="lp">แสดง</button></div><div class="err" id="le"></div><button class="btn" id="ls" style="width:100%">เข้าสู่ระบบ</button><p class="mu"><a href="#" id="s2r">สมัครสมาชิก</a> · <a href="#" id="fg">ลืมรหัสผ่าน</a></p></div>
@@ -168,7 +168,7 @@ html{overflow-x:hidden;max-width:100%}main,.view,.split>div,.split>aside,.card,.
 <script>
 /* === ตั้งค่า Supabase: ใส่ Project URL และ anon public key ของคุณ === */
 const SB_URL='https://edgjwfuezwucpylghoww.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVkZ2p3ZnVlend1Y3B5bGdob3d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyNjg4NTQsImV4cCI6MjEwODg0NDg1NH0.Seg0EJOH9drWoy_nl0EUkM-Sxm8VNy5ADLS2Ub5xLc8';
-const sb=(window.supabase&&SB_URL&&SB_KEY)?window.supabase.createClient(SB_URL,SB_KEY):null;
+const sb=(window.supabase&&SB_URL&&SB_KEY)?window.supabase.createClient(SB_URL,SB_KEY,{auth:{lock:async(n,tm,fn)=>await fn()}}):null;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bt=n=>'฿'+n.toLocaleString('th-TH',{minimumFractionDigits:2});
@@ -305,7 +305,19 @@ function hist(){$('#thist').innerHTML=U?tbl(['ID','จำนวน','วัน�
 function prof(){$('#pinfo').innerHTML=U?`<p><b>${esc(U.u)}</b> · ${esc(U.e)}</p><p class="mu">สมัครเมื่อ ${fmt(U.at)} · คำสั่งซื้อ ${orders.length} รายการ</p><div class="price">เครดิต ${bt(credit)}</div><button class="btn g sm" data-go="topup">เติมเงิน</button> <button class="btn g sm" onclick="toast('ต้องใช้ Backend')">เปลี่ยนรหัสผ่าน</button> <button class="btn g sm" onclick="toast('ต้องใช้ Backend')">ขอลบบัญชี</button>`:'<div class="empty">กรุณาเข้าสู่ระบบ</div>';
 $('#whist').innerHTML=U?tbl(['ID','ประเภท','จำนวน','วันที่','สถานะ'],wal.map(w=>`<tr><td>${w.id}</td><td>${w.type}</td><td>${bt(w.amt)}</td><td>${fmt(w.at)}</td><td><span class="st ${w.st}">${w.st}</span></td></tr>`)):''}
 function openAuth(m){$('#o-auth').classList.add('open');$('#fl').style.display=m==='l'?'block':'none';$('#fr').style.display=m==='l'?'none':'block';$('#tl').style.opacity=m==='l'?1:.5;$('#tr').style.opacity=m==='r'?1:.5}
-const sha=async s=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+function sha256js(str){const b=new TextEncoder().encode(str),l=b.length*8,K=[],H=[];let p=2,n=0;const fr=x=>(x-Math.floor(x))*4294967296|0;
+for(;n<64;p++){let ok=true;for(let d=2;d*d<=p;d++)if(p%d===0){ok=false;break}if(ok){if(n<8)H[n]=fr(Math.pow(p,.5));K[n++]=fr(Math.pow(p,1/3))}}
+const m=Array.from(b);m.push(128);while(m.length%64!==56)m.push(0);
+for(const v of [Math.floor(l/4294967296),l>>>0])m.push(v>>>24&255,v>>>16&255,v>>>8&255,v&255);
+const h=H.slice(),w=new Array(64),rr=(x,n)=>x>>>n|x<<(32-n);
+for(let i=0;i<m.length;i+=64){for(let j=0;j<16;j++)w[j]=m[i+4*j]<<24|m[i+4*j+1]<<16|m[i+4*j+2]<<8|m[i+4*j+3];
+for(let j=16;j<64;j++){const s0=rr(w[j-15],7)^rr(w[j-15],18)^w[j-15]>>>3,s1=rr(w[j-2],17)^rr(w[j-2],19)^w[j-2]>>>10;w[j]=w[j-16]+s0+w[j-7]+s1|0}
+let a=h[0],b2=h[1],c=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
+for(let j=0;j<64;j++){const S1=rr(e,6)^rr(e,11)^rr(e,25),ch=e&f^~e&g,t1=hh+S1+ch+K[j]+w[j]|0,S0=rr(a,2)^rr(a,13)^rr(a,22),mj=a&b2^a&c^b2&c,t2=S0+mj|0;hh=g;g=f;f=e;e=d+t1|0;d=c;c=b2;b2=a;a=t1+t2|0}
+h[0]=h[0]+a|0;h[1]=h[1]+b2|0;h[2]=h[2]+c|0;h[3]=h[3]+d|0;h[4]=h[4]+e|0;h[5]=h[5]+f|0;h[6]=h[6]+g|0;h[7]=h[7]+hh|0}
+return h.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('')}
+
+const sha=async s=>{try{if(window.crypto&&crypto.subtle)return[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('')}catch(e){}return sha256js(s)};
 function login(u){U=u;$('#o-auth').classList.remove('open');upd();toast('ยินดีต้อนรับ '+u.u)}
 document.addEventListener('click',async e=>{const t=e.target,c=t.closest('[data-go],[data-d],[data-add],[data-buy],[data-rm],[data-close],[data-eye],[data-copy],[data-ap],[data-rj],[data-q]');if(!c)return;
 if(c.dataset.go){go(c.dataset.go,c.dataset.cat);if(c.dataset.sc)setTimeout(()=>$('#'+c.dataset.sc).scrollIntoView({behavior:'smooth'}),60)}
@@ -323,7 +335,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')$$('.ov.open').forEa
 $('#setBtn').onclick=()=>$('#menu').classList.toggle('open');$('#burger').onclick=()=>$('#menu').classList.toggle('open');
 $('#lg').onclick=()=>openAuth('l');$('#rg').onclick=()=>openAuth('r');$('#tl').onclick=$('#s2r').onclick=e=>{e.preventDefault();openAuth(e.target.id==='tl'?'l':'r')};$('#tr').onclick=()=>openAuth('r');
 $('#fg').onclick=async e=>{e.preventDefault();const m=$('#lu').value.trim();if(!sb)return toast('ยังไม่ได้ตั้งค่า Supabase');if(!m)return $('#le').textContent='กรุณากรอกอีเมลในช่องด้านบนก่อน แล้วกดลืมรหัสผ่านอีกครั้ง';const{error}=await sb.auth.resetPasswordForEmail(m,{redirectTo:location.origin+location.pathname});$('#le').textContent=error?errTh(error.message):'';if(!error)toast('ส่งลิงก์ตั้งรหัสผ่านใหม่ไปที่อีเมลแล้ว (ตรวจในกล่องสแปมด้วย)')};
-function errTh(m){m=m||'';if(/rate limit/i.test(m))return 'ระบบส่งอีเมลเกินโควตา กรุณารอสักครู่แล้วลองใหม่';if(/Database error/i.test(m))return 'ฐานข้อมูลยังตั้งค่าไม่ครบ (ต้องรันไฟล์ SQL ใน Supabase)';if(/already registered|already been/i.test(m))return 'อีเมลนี้สมัครแล้ว';if(/password/i.test(m)&&/6|least/i.test(m))return 'รหัสผ่านสั้นเกินไป';return m}
+function errTh(m){m=m||'';if(/failed to fetch|networkerror|load failed|fetch failed/i.test(m))return 'ติดต่อเซิร์ฟเวอร์ไม่ได้ ตรวจอินเทอร์เน็ต ปิดตัวบล็อกโฆษณา/VPN หรือเช็กว่าโปรเจกต์ Supabase ไม่ได้ถูกพักอยู่';if(/rate limit/i.test(m))return 'ระบบส่งอีเมลเกินโควตา กรุณารอสักครู่แล้วลองใหม่';if(/Database error/i.test(m))return 'ฐานข้อมูลยังตั้งค่าไม่ครบ (ต้องรันไฟล์ SQL ใน Supabase)';if(/already registered|already been/i.test(m))return 'อีเมลนี้สมัครแล้ว';if(/password/i.test(m)&&/6|least/i.test(m))return 'รหัสผ่านสั้นเกินไป';return m}
 $('#lo').onclick=()=>{if(sb)sb.auth.signOut();U=null;credit=0;orders=[];tops=[];wal=[];cart=[];upd();go('home');toast('ออกจากระบบแล้ว')};
 $('#gen').onclick=()=>{const a=new Uint32Array(6);crypto.getRandomValues(a);const v=[...a].map(x=>x%10).join('');$('#rpin').value=v;$('#gnote').textContent='PIN ที่สุ่มได้: '+v+' — จดเก็บไว้'};
 $('#rs').onclick=async()=>{const u=$('#ru').value.trim(),m=$('#re').value.trim(),p=$('#rp').value,er=$('#rer');
@@ -335,7 +347,7 @@ if(error){ldH();er.textContent=errTh(error.message);return}
 if(data.session){for(let i=0;i<40&&!U;i++)await new Promise(r=>setTimeout(r,200));await ldOK('สมัครสมาชิกสำเร็จ');go('home')}else{ldH();toast('สมัครสำเร็จ กรุณายืนยันอีเมลแล้วเข้าสู่ระบบ');openAuth('l')}}
 catch(x){ldH();er.textContent=x.message==='timeout'?'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ กรุณาลองใหม่อีกครั้ง':errTh(x.message)}
 finally{rb.disabled=false;rb.textContent='สมัครสมาชิก'}};
-$('#ls').onclick=async()=>{const er=$('#le');if(!sb)return er.textContent='ยังไม่ได้ตั้งค่า Supabase ในไฟล์';er.textContent='';const em=$('#lu').value.trim(),pw=$('#lp').value;if(!em||!pw)return er.textContent='กรุณากรอกอีเมลและรหัสผ่าน';const lb=$('#ls');lb.disabled=true;lb.textContent='กำลังดำเนินการ รอสักครู่...';ldS('กำลังดำเนินการ รอสักครู่...');
+$('#ls').onclick=async()=>{const er=$('#le');if(!sb)return er.textContent='ยังไม่ได้ตั้งค่า Supabase ในไฟล์';er.textContent='';const em=$('#lu').value.trim(),pw=$('#lp').value;if(!em||!pw)return er.textContent='กรุณากรอกอีเมลและรหัสผ่าน';if(!/^\S+@\S+\.\S+$/.test(em))return er.textContent='อีเมลไม่ถูกต้อง (ต้องมี @ เช่น name@gmail.com)';const lb=$('#ls');lb.disabled=true;lb.textContent='กำลังดำเนินการ รอสักครู่...';ldS('กำลังดำเนินการ รอสักครู่...');
 try{const t0=Date.now(),{error}=await Promise.race([sb.auth.signInWithPassword({email:em,password:pw}),new Promise((_,no)=>setTimeout(()=>no(new Error('timeout')),20000))]);
 const w=1500-(Date.now()-t0);if(w>0)await new Promise(r=>setTimeout(r,w));
 if(error){ldH();er.textContent='อีเมลหรือรหัสผ่านไม่ถูกต้อง';return}
@@ -382,7 +394,7 @@ addEventListener('pointerdown',e=>{mv(e);if(rm)return;const r=document.createEle
 const off=()=>{g.classList.remove('on');m.x=m.y=-999};document.documentElement.addEventListener('mouseleave',off);addEventListener('pointerup',e=>{if(e.pointerType==='touch')setTimeout(off,500)});
 })();
 (async()=>{if(!sb)return;
-const ap=async s=>{await loadStock();if(!s){U=null;ADM=false;window._ap=0;credit=0;upd();go('home');openAuth('l');return}const{data:pr}=await sb.from('profiles').select('name,role,credit,pin_hash').eq('id',s.user.id).maybeSingle();const was=!!U;U={u:(pr&&pr.name)||s.user.email,e:s.user.email,at:Date.parse(s.user.created_at),ph:pr&&pr.pin_hash};credit=pr?+pr.credit:0;ADM=!!(pr&&pr.role==='admin');$('#o-auth').classList.remove('open');if(ADM&&!window._sy){window._sy=1;sv()}upd();loadMine();if(!was)toast('ยินดีต้อนรับ '+U.u)};
+const ap=async s=>{await Promise.race([loadStock(),new Promise(r=>setTimeout(r,6000))]);if(!s){U=null;ADM=false;window._ap=0;credit=0;upd();go('home');openAuth('l');return}const{data:pr}=await sb.from('profiles').select('name,role,credit,pin_hash').eq('id',s.user.id).maybeSingle();const was=!!U;U={u:(pr&&pr.name)||s.user.email,e:s.user.email,at:Date.parse(s.user.created_at),ph:pr&&pr.pin_hash};credit=pr?+pr.credit:0;ADM=!!(pr&&pr.role==='admin');$('#o-auth').classList.remove('open');if(ADM&&!window._sy){window._sy=1;sv()}upd();loadMine();if(!was)toast('ยินดีต้อนรับ '+U.u)};
 try{const{data:st}=await sb.from('shop_state').select('data').eq('id',1).maybeSingle(),v=st&&st.data;if(v){[[NEWS,v.NEWS],[CH,v.CH],[P,v.P]].forEach(([a,b])=>{if(Array.isArray(b)&&b.length)a.splice(0,a.length,...b)});if(v.CFG)Object.assign(CFG,v.CFG);if(Array.isArray(v.CATD)&&v.CATD.length)CATD=v.CATD;fxAll();syncCats();applyCfg();list();$('#featured').innerHTML=act().slice(0,3).map(card).join('');upd()}}catch(e){}
 const{data:{session}}=await sb.auth.getSession();await ap(session);window._ar=1;sb.auth.onAuthStateChange((ev,s)=>{setTimeout(async()=>{await ap(s);if(ev==='PASSWORD_RECOVERY'){const p=prompt('ตั้งรหัสผ่านใหม่ (อย่างน้อย 8 ตัวอักษร)');if(p&&p.length>=8){const{error}=await sb.auth.updateUser({password:p});toast(error?errTh(error.message):'เปลี่ยนรหัสผ่านเรียบร้อยแล้ว')}else if(p!==null)toast('รหัสผ่านสั้นเกินไป')}},0)})})();upd();const h=location.hash.slice(1);go(['products','topup','orders','profile'].includes(h)?h:'home');
 
@@ -409,7 +421,7 @@ if(r&&r.error)return toast(r.error.message);await loadStock();adm()});
 
 /* ===== มือถือ / หมวดหมู่ / PIN แอดมิน / เติมฟรี ===== */
 const mobQ=()=>document.documentElement.classList.toggle('mob',/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||innerWidth<820);mobQ();addEventListener('resize',mobQ);
-$('#bacc').onclick=()=>{if(U)go('profile');else openAuth('l')};
+document.addEventListener('click',e=>{if(e.target.closest('#bacc')){e.preventDefault();if(U)go('profile');else openAuth('l')}});
 function syncCats(){CATS.splice(0,CATS.length,'ทั้งหมด',...CATD.map(c=>c.n));const v=$('#fc').value;$('#fc').innerHTML=CATS.map(c=>`<option>${esc(c)}</option>`).join('');$('#fc').value=CATS.includes(v)?v:'ทั้งหมด';cats()}
 function cats(){if(!CATD||!$('#cats'))return;const gc=CATD.find(c=>c.n==='สุ่มไอดี');$('#cats').innerHTML=`<div class="card cat gx" data-cat="สุ่มไอดี">${gc&&gc.img?mt(gc.img,'cm'):`<div class="ci">${esc(gc&&gc.ico||'🎰')}</div>`}<h3 style="margin:8px 0 2px">สุ่มไอดี</h3><span class="mu">ลุ้นรับไอดี มีการันตี</span><span class="btn sm gb" style="margin-left:auto">🎰 สุ่มเลย</span></div>`+CATD.filter(c=>c.a!==false&&c.n!=='สุ่มไอดี').map(c=>`<div class="card cat" data-cat="${esc(c.n)}">${c.img?mt(c.img,'cm'):`<div class="ci">${esc(c.ico||'🎮')}</div>`}<h3 style="margin:8px 0 2px">${esc(c.n)}</h3><span class="mu">${P.filter(p=>p.c===c.n&&p.a!==false).length} รายการ</span></div>`).join('')}
 CATD=CATS.slice(1).map(n=>({n,ico:'🎮',img:''})).concat([{n:'สุ่มไอดี',ico:'🎲',img:''},{n:'ซื้อรหัส',ico:'🔑',img:''},{n:'รหัสไก่ตัน',ico:'🐔',img:''}]);syncCats();
@@ -437,7 +449,9 @@ applyCfg();
 /* ===== ยังไม่ล็อกอิน: ทุกปุ่มพาไปหน้าเข้าสู่ระบบ ===== */
 document.addEventListener('click',e=>{if(U)return;const t=e.target;if(t.closest('#o-auth,#authBtns,#lg,#rg,#bacc,#burger'))return;const x=t.closest('a,button,[data-go],[data-d],[data-cat],[data-sc],[data-nz],.logo,summary,.ib');if(!x)return;if(x.tagName==='A'&&x.target==='_blank')return;e.preventDefault();e.stopImmediatePropagation();toast('กรุณาเข้าสู่ระบบหรือสมัครสมาชิกก่อนใช้งาน');openAuth('l')},true);
 document.addEventListener('focusin',e=>{if(U)return;if(e.target.id==='q'){e.target.blur();toast('กรุณาเข้าสู่ระบบหรือสมัครสมาชิกก่อนใช้งาน');openAuth('l')}});
-const ldS=m=>{$('#ldt').textContent=m||'กำลังดำเนินการ รอสักครู่...';$('#ld').classList.remove('ok');$('#ld').classList.add('on')},ldH=()=>$('#ld').classList.remove('on','ok'),ldOK=async m=>{$('#ldt').textContent=m;$('#ld').classList.add('on','ok');await new Promise(r=>setTimeout(r,1000));ldH()};
+function ldS(m){clearTimeout(window._ldt);window._ldt=setTimeout(()=>ldH(),25000);$('#ldt').textContent=m||'กำลังดำเนินการ รอสักครู่...';$('#ld').classList.remove('ok');$('#ld').classList.add('on')}
+function ldH(){$('#ld').classList.remove('on','ok')}
+async function ldOK(m){$('#ldt').textContent=m;$('#ld').classList.add('on','ok');await new Promise(r=>setTimeout(r,1000));ldH()}
 /* ===== สุ่มไอดี ===== */
 const GD={price:100,img:'',pityN:10,pityTier:'god',tiers:[{k:'low',n:'ไอดีไก่ตัน',pct:60,pid:''},{k:'mid',n:'ไอดีธรรมดา',pct:30,pid:''},{k:'god',n:'ไอดีเทพ',pct:10,pid:''}]};
 const GC=()=>CFG.gacha||(CFG.gacha=JSON.parse(JSON.stringify(GD)));let xgimg=null;
@@ -445,4 +459,9 @@ function gachaR(){const g=GC(),pt=g.tiers.find(x=>x.k===g.pityTier);$('#gbox').i
 $('#gspin').onclick=async()=>{if(!need())return;const b=$('#gspin'),r=$('#gres');b.disabled=true;b.textContent='กำลังสุ่ม...';r.innerHTML='<span class="mu">รอสักครู่ กำลังดำเนินการ...</span>';ldS('กำลังสุ่ม รอสักครู่...');await new Promise(x=>setTimeout(x,1200));const{data,error}=await sb.rpc('gacha_spin');ldH();b.disabled=false;b.textContent='สุ่มเลย';if(error){r.innerHTML='';return toast(error.message)}r.innerHTML=`<h3>🎉 ได้ ${esc(data.tier)}${data.pity?' (การันตี)':''}</h3><span class="mu">กำลังพาไปหน้าประวัติการซื้อ...</span>`;await loadMine();await loadStock();setTimeout(()=>go('orders'),1800)};
 AX.gx=()=>{const g=GC();H('gx',`<div class="card" style="max-width:640px"><b>🎰 ตั้งค่าสุ่มไอดี</b><label class="f">ราคาต่อครั้ง (฿)</label><input class="in" id="xgp" type="number" min="0" value="${+g.price}"><label class="f">รูป/วิดีโอตู้สุ่ม (JPG/PNG/WebP/MP4/WebM)</label><input class="in" id="xgimgf" type="file" accept="image/*,video/mp4,video/webm"><div class="err" id="xger"></div><img id="xgimgp" alt="" style="display:none;max-width:240px;margin-top:6px">${g.img?mt(g.img,'gm'):''}<label class="f">ระดับรางวัล: ชื่อ / อัตรา % / สินค้าที่ดึงสต็อกไอดี</label>${g.tiers.map((x,i)=>`<div class="row" style="margin:6px 0"><input class="in" id="xn${i}" value="${esc(x.n)}"><input class="in" id="xp${i}" type="number" min="0" max="100" value="${+x.pct}" style="width:90px"><select class="in" id="xi${i}" style="width:150px">${P.map(p=>`<option value="${esc(p.id)}" ${p.id===x.pid?'selected':''}>${esc(p.id)} ${esc(p.n)}</option>`).join('')}</select></div>`).join('')}<div class="row"><div style="flex:1"><label class="f">การันตีทุกกี่ครั้ง (0 = ปิด)</label><input class="in" id="xgn" type="number" min="0" value="${+g.pityN}"></div><div style="flex:1"><label class="f">ระดับที่การันตี</label><select class="in" id="xgt">${g.tiers.map(x=>`<option value="${x.k}" ${x.k===g.pityTier?'selected':''}>${esc(x.n)}</option>`).join('')}</select></div></div><div class="err" id="xge"></div><button class="btn" id="xgsave">บันทึก</button></div>`)};
 $('#v-admin').addEventListener('click',async e=>{if(!e.target.closest('#xgsave')||!isAdm())return;const g=GC(),er=$('#xge');g.tiers.forEach((x,i)=>{x.n=$('#xn'+i).value.trim()||x.n;x.pct=+$('#xp'+i).value||0;x.pid=$('#xi'+i).value});const s=g.tiers.reduce((a,x)=>a+x.pct,0);if(Math.abs(s-100)>.01)return er.textContent='อัตรารวมต้องเท่ากับ 100% (ตอนนี้ '+s+'%)';g.price=+$('#xgp').value||0;g.pityN=Math.max(0,Math.floor(+$('#xgn').value)||0);g.pityTier=$('#xgt').value;if(xgimg!==null){g.img=xgimg;xgimg=null}er.textContent='';await sv();toast('บันทึกตู้สุ่มแล้ว');AX.gx()});
+
+/* ===== กันค้าง: ถ้าเกิดข้อผิดพลาดที่ไม่คาดคิด ให้ปลดล็อกปุ่มและปิดหน้าต่างโหลดเสมอ ===== */
+const unstick=m=>{try{ldH()}catch(_){}[['rs','สมัครสมาชิก'],['ls','เข้าสู่ระบบ']].forEach(([i,x])=>{const b=$('#'+i);if(b&&b.disabled){b.disabled=false;b.textContent=x}});toast('เกิดข้อผิดพลาด: '+m)};
+addEventListener('unhandledrejection',e=>unstick((e.reason&&e.reason.message)||e.reason||'ไม่ทราบสาเหตุ'));
+addEventListener('error',e=>unstick(e.message||'ไม่ทราบสาเหตุ'));
 </script><div id="bnav"><a data-go="home"><b>🏠</b>หน้าแรก</a><a data-go="products"><b>🛍️</b>สินค้า</a><a data-go="topup"><b>💳</b>เติมเงิน</a><a id="bacc"><b>👤</b>บัญชี</a></div></body></html>
