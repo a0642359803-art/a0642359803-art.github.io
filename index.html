@@ -185,7 +185,7 @@ body.mntprev #mnt{display:flex!important;z-index:420}body.mntprev{overflow:hidde
 <script>
 /* === ตั้งค่า Supabase: ใส่ Project URL และ anon public key ของคุณ === */
 if(window.top!==window.self){try{window.top.location=window.self.location}catch(e){document.documentElement.innerHTML=''}}
-const SB_URL='https://edgjwfuezwucpylghoww.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVkZ2p3ZnVlend1Y3B5bGdob3d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyNjg4NTQsImV4cCI6MjEwODg0NDg1NH0.Seg0EJOH9drWoy_nl0EUkM-Sxm8VNy5ADLS2Ub5xLc8';
+const SB_URL='https://adwgkppvwlocomysdmcp.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFkd2drcHB2d2xvY29teXNkbWNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0OTYwNjksImV4cCI6MjEwOTA3MjA2OX0.wRsI43gfNm76J8ZOI0H5lsOX8Xq2UCJa8qR__lk2Sdo';
 const sb=(window.supabase&&SB_URL&&SB_KEY)?window.supabase.createClient(SB_URL,SB_KEY,{auth:{lock:async(n,tm,fn)=>await fn()}}):null;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
