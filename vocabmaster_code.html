@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VocabMaster - เรียนรู้คำศัพท์ภาษาอังกฤษ 600+ คำ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Kanit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .gradient-bg { background: linear-gradient(135deg, #f3e8ff 0%, #fce7f3 100%); }
+    .gradient-btn { background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); }
+    .gradient-btn:hover { background: linear-gradient(135deg, #9333ea 0%, #db2777 100%); }
+    .gradient-text {
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .highlight-match {
+      background-color: #fef08a;
+      color: #854d0e;
+      padding: 0 4px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    
+    /* Futuristic Loading Modal FX */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(168, 85, 247, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
+    }
+    .glow-pulse {
+      animation: pulse-ring 2s infinite;
+    }
+
+    @keyframes progress-anim {
+      0% { width: 0%; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+    .animate-progress {
+      animation: progress-anim 1.2s ease-in-out forwards;
+    }
+
+    /* Flying Creature Animation */
+    @keyframes floatFly {
+      0% {
+        transform: translate(0, 0) scale(0.8) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.8; }
+      50% {
+        transform: translate(40vw, -30vh) scale(1.1) rotate(15deg);
+      }
+      90% { opacity: 0.8; }
+      100% {
+        transform: translate(95vw, -60vh) scale(0.7) rotate(-10deg);
+        opacity: 0;
+      }
+    }
+    .creature {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      font-size: 1.5rem;
+      filter: drop-shadow(0 4px 6px rgba(168, 85, 247, 0.3));
+    }
+    .c1 { left: -5%; bottom: 10%; animation: floatFly 18s ease-in-out infinite; }
+    .c2 { left: -10%; bottom: 35%; animation: floatFly 24s ease-in-out 6s infinite; }
+    .c3 { left: -8%; bottom: 60%; animation: floatFly 21s ease-in-out 12s infinite; }
+
+    /* ===== Learning-themed animated background (full-screen, no empty space) ===== */
+    .bg-art { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .bg-mesh { position: absolute; inset: 0;
+      background: linear-gradient(135deg, #f3e8ff 0%, #fbe7f6 50%, #e9e7ff 100%); }
+    .bg-blob { position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; will-change: transform; }
+    .bg-blob.b1 { left: -20vmax; top: -20vmax; background: radial-gradient(circle, rgba(192,132,252,.55) 0%, rgba(192,132,252,0) 68%); animation: blobA 26s ease-in-out infinite alternate; }
+    .bg-blob.b2 { right: -22vmax; top: 10vh; background: radial-gradient(circle, rgba(244,114,182,.45) 0%, rgba(244,114,182,0) 68%); animation: blobB 32s ease-in-out infinite alternate; }
+    .bg-blob.b3 { left: 10vw; bottom: -30vmax; background: radial-gradient(circle, rgba(125,211,252,.42) 0%, rgba(125,211,252,0) 68%); animation: blobC 30s ease-in-out infinite alternate; }
+    .bg-blob.b4 { right: 5vw; bottom: -26vmax; width: 55vmax; height: 55vmax; background: radial-gradient(circle, rgba(167,139,250,.42) 0%, rgba(167,139,250,0) 68%); animation: blobA 36s ease-in-out infinite alternate-reverse; }
+    @keyframes blobA { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(14vmax,10vmax,0) scale(1.18); } }
+    @keyframes blobB { from { transform: translate3d(0,0,0) scale(1.1); } to { transform: translate3d(-16vmax,12vmax,0) scale(.92); } }
+    @keyframes blobC { from { transform: translate3d(0,0,0) scale(.95); } to { transform: translate3d(12vmax,-14vmax,0) scale(1.2); } }
+
+    .bg-tile { position: absolute; left: -600px; top: -600px; right: -600px; bottom: -600px; background-image: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22300%22%20height=%22300%22%20viewBox=%220%200%20300%20300%22%3E%3Cg%20fill=%22none%22%20stroke=%22%239333ea%22%20stroke-width=%222.2%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%20opacity=%220.2%22%3E%3Cg%20transform=%22rotate%28-8%2050%2050%29%22%3E%3Ctext%20x=%2222%22%20y=%2262%22%20font-family=%22Arial%2Csans-serif%22%20font-size=%2240%22%20font-weight=%22700%22%20fill=%22%239333ea%22%20stroke=%22none%22%3EAa%3C/text%3E%3C/g%3E%3Ctext%20x=%22150%22%20y=%2248%22%20font-family=%22Arial%2Csans-serif%22%20font-size=%2226%22%20font-weight=%22700%22%20fill=%22%23c026d3%22%20stroke=%22none%22%3EABC%3C/text%3E%3Cpath%20d=%22M232%2096l30-30%2012%2012-30%2030-16%204z%22/%3E%3Cpath%20d=%22M262%2066l8-8%2012%2012-8%208%22/%3E%3Cpath%20d=%22M30%20150h46v34H30zM53%20150v34M30%20158h46%22/%3E%3Ccircle%20cx=%22150%22%20cy=%22150%22%20r=%2217%22/%3E%3Cpath%20d=%22M142%20172h16M144%20179h12M150%20133v-6M135%20138l-4-4M165%20138l4-4%22/%3E%3Cpath%20d=%22M205%20190h70a8%208%200%200%201%208%208v28a8%208%200%200%201-8%208h-40l-14%2014v-14h-16a8%208%200%200%201-8-8v-28a8%208%200%200%201%208-8z%22/%3E%3Ctext%20x=%22219%22%20y=%22220%22%20font-family=%22Arial%2Csans-serif%22%20font-size=%2220%22%20font-weight=%22700%22%20fill=%22%239333ea%22%20stroke=%22none%22%3EHi%21%3C/text%3E%3Ctext%20x=%2222%22%20y=%22262%22%20font-family=%22Arial%2Csans-serif%22%20font-size=%2219%22%20font-weight=%22700%22%20fill=%22%23ec4899%22%20stroke=%22none%22%3Eam%20%C2%B7%20is%20%C2%B7%20are%3C/text%3E%3Cpath%20d=%22M120%20236l8%2016%2017%203-12%2012%203%2017-16-8-16%208%203-17-12-12%2017-3z%22/%3E%3Ctext%20x=%22262%22%20y=%2240%22%20font-family=%22Arial%2Csans-serif%22%20font-size=%2230%22%20font-weight=%22700%22%20fill=%22%23ec4899%22%20stroke=%22none%22%3E%3F%3C/text%3E%3Ctext%20x=%22180%22%20y=%22112%22%20font-family=%22Arial%2Csans-serif%22%20font-size=%2224%22%20font-weight=%22700%22%20fill=%22%239333ea%22%20stroke=%22none%22%3Ethe%3C/text%3E%3Cpath%20d=%22M96%2098l8%208m0-8l-8%208%22/%3E%3Cpath%20d=%22M80%20214h12M80%20220h12%22/%3E%3Ccircle%20cx=%22270%22%20cy=%22150%22%20r=%223%22/%3E%3Ccircle%20cx=%22100%22%20cy=%2230%22%20r=%223%22/%3E%3Ccircle%20cx=%2220%22%20cy=%22110%22%20r=%223%22/%3E%3Ccircle%20cx=%22190%22%20cy=%22285%22%20r=%223%22/%3E%3Cpath%20d=%22M258%20262l12-12%2012%2012-12%2012z%22/%3E%3C/g%3E%3C/svg%3E"); will-change: transform; }
+    .bg-tile.t1 { background-size: 300px 300px; animation: tileA 60s linear infinite; }
+    .bg-tile.t2 { background-size: 440px 440px; opacity: .55; animation: tileB 90s linear infinite; }
+    @keyframes tileA { from { transform: translate3d(0,0,0); } to { transform: translate3d(300px,300px,0); } }
+    @keyframes tileB { from { transform: translate3d(0,0,0); } to { transform: translate3d(-440px,440px,0); } }
+
+    .bg-icon { position: absolute; left: var(--x); top: var(--y); font-size: var(--s); opacity: .55;
+      filter: drop-shadow(0 6px 10px rgba(168,85,247,.25));
+      animation: bgBob var(--d) ease-in-out var(--delay) infinite alternate; will-change: transform; }
+    @keyframes bgBob {
+      0%   { transform: translate3d(0,0,0) rotate(-6deg); }
+      50%  { transform: translate3d(14px,-26px,0) rotate(5deg); }
+      100% { transform: translate3d(-12px,-8px,0) rotate(-3deg); }
+    }
+    /* ===== Glass panels: tint follows the animated background, glow on hover / touch ===== */
+    .bg-white\/90, .bg-white\/95 {
+      background-color: rgba(255,255,255,.42) !important;
+      -webkit-backdrop-filter: blur(16px) saturate(1.35); backdrop-filter: blur(16px) saturate(1.35);
+      border-color: rgba(192,132,252,.5) !important;
+      transition: box-shadow .35s ease, border-color .35s ease, transform .35s ease;
+    }
+    .bg-white\/95 { background-color: rgba(255,255,255,.58) !important; }
+    .from-white.to-sky-50 { background-image: linear-gradient(to bottom, rgba(255,255,255,.5), rgba(125,211,252,.28)) !important; }
+    .from-white.to-purple-50 { background-image: linear-gradient(to bottom, rgba(255,255,255,.5), rgba(192,132,252,.28)) !important; }
+    .bg-white\/90:hover, .bg-white\/90:active, .bg-white\/95:hover,
+    .from-white:hover, .from-white:active {
+      border-color: rgba(236,72,153,.65) !important;
+      box-shadow: 0 0 0 1px rgba(236,72,153,.35), 0 0 30px 5px rgba(192,132,252,.6), 0 0 64px 12px rgba(244,114,182,.28) !important;
+    }
+    /* ===== Tap / click glow anywhere on the page ===== */
+    .tap-glow { position: fixed; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      background: radial-gradient(circle, rgba(244,114,182,.75) 0%, rgba(168,85,247,.45) 42%, rgba(168,85,247,0) 70%);
+      box-shadow: 0 0 22px 6px rgba(192,132,252,.55);
+      animation: tapGlow .75s ease-out forwards; }
+    @keyframes tapGlow { 0% { transform: scale(.4); opacity: 1; } 100% { transform: scale(7); opacity: 0; } }
+    
+    /* ===== Balanced decorative stars across both left and right sides ===== */
+    .cute-deco { display: none; }
+    @media (min-width: 1024px) {
+      .cute-deco { display: block; position: absolute; inset: 0; pointer-events: none !important; user-select: none; z-index: 0; }
+      .cute-deco::before { content: ""; position: absolute; inset: -4% -2% -4% -2%; border-radius: 50%;
+        background: radial-gradient(ellipse at center, rgba(244,114,182,.15) 0%, rgba(192,132,252,.1) 45%, rgba(192,132,252,0) 72%); }
+      .cute { position: absolute; left: var(--x); top: var(--y); font-size: var(--s); line-height: 1;
+        filter: drop-shadow(0 6px 8px rgba(168,85,247,.28));
+        animation: cuteBob var(--d) ease-in-out var(--delay) infinite alternate; }
+      .star { position: absolute; pointer-events: none !important; left: var(--x); top: var(--y); font-size: var(--s); line-height: 1; color: var(--c);
+        text-shadow: 0 0 8px var(--c); opacity: .3;
+        animation: twinkle var(--d) ease-in-out var(--delay) infinite; }
+      @keyframes twinkle {
+        0%, 100% { opacity: .18; transform: scale(.7) rotate(0deg); }
+        50%      { opacity: .85; transform: scale(1.1) rotate(12deg); }
+      }
+      @keyframes cuteBob {
+        0%   { transform: translate3d(0,0,0) rotate(var(--r)); }
+        100% { transform: translate3d(0,-9px,0) rotate(calc(var(--r) * -1)); }
+      }
+    }
+    @media (prefers-reduced-motion: reduce) { .cute, .star { animation: none !important; } .pop-in { animation: none !important; } }
+
+    /* ===== Category screens pop in on their own ===== */
+    .pop-in { animation: popIn .45s cubic-bezier(.2,.9,.3,1.15) both; }
+    @keyframes popIn { 0% { opacity: 0; transform: translateY(18px) scale(.97); } 100% { opacity: 1; transform: none; } }
+    /* hide the browser's built-in password eye so only our own button shows */
+    input[type="password"]::-ms-reveal, input[type="password"]::-ms-clear { display: none; }
+    input::-webkit-credentials-auto-fill-button { visibility: hidden; display: none !important; pointer-events: none; }
+    @media (prefers-reduced-motion: reduce) { .bg-art * { animation: none !important; } .creature { animation: none !important; opacity: .6; } }
+  </style>
+</head>
+<body class="gradient-bg min-h-screen text-slate-800 font-sans antialiased flex flex-col justify-between selection:bg-pink-300 selection:text-purple-900 relative overflow-x-hidden">
+
+  <!-- Animated learning background -->
+  <div class="bg-art" aria-hidden="true">
+    <div class="bg-mesh"></div>
+    <div class="bg-blob b1"></div><div class="bg-blob b2"></div><div class="bg-blob b3"></div><div class="bg-blob b4"></div>
+    <div class="bg-tile t2"></div>
+    <div class="bg-tile t1"></div>
+    <span class="bg-icon" style="--x:6%;--y:10%;--s:2.2rem;--d:9s;--delay:-1s">📚</span>
+    <span class="bg-icon" style="--x:22%;--y:6%;--s:1.8rem;--d:11s;--delay:-4s">✏️</span>
+    <span class="bg-icon" style="--x:40%;--y:14%;--s:2rem;--d:10s;--delay:-2s">💡</span>
+    <span class="bg-icon" style="--x:58%;--y:7%;--s:2.3rem;--d:12s;--delay:-6s">🎓</span>
+    <span class="bg-icon" style="--x:76%;--y:12%;--s:2rem;--d:9s;--delay:-3s">🔤</span>
+    <span class="bg-icon" style="--x:92%;--y:8%;--s:1.9rem;--d:13s;--delay:-5s">💬</span>
+    <span class="bg-icon" style="--x:4%;--y:40%;--s:1.9rem;--d:12s;--delay:-7s">📝</span>
+    <span class="bg-icon" style="--x:94%;--y:38%;--s:1.7rem;--d:8s;--delay:-2s">⭐</span>
+    <span class="bg-icon" style="--x:10%;--y:68%;--s:2.1rem;--d:11s;--delay:-1s">🧠</span>
+    <span class="bg-icon" style="--x:30%;--y:80%;--s:2.2rem;--d:10s;--delay:-8s">📖</span>
+    <span class="bg-icon" style="--x:50%;--y:88%;--s:1.9rem;--d:9s;--delay:-4s">🔍</span>
+    <span class="bg-icon" style="--x:68%;--y:78%;--s:1.8rem;--d:12s;--delay:-3s">🌟</span>
+    <span class="bg-icon" style="--x:86%;--y:70%;--s:2rem;--d:11s;--delay:-6s">🗣️</span>
+    <span class="bg-icon" style="--x:18%;--y:45%;--s:1.6rem;--d:7s;--delay:-2s">✨</span>
+    <span class="bg-icon" style="--x:82%;--y:50%;--s:1.8rem;--d:10s;--delay:-5s">🅰️</span>
+    <span class="bg-icon" style="--x:48%;--y:50%;--s:1.6rem;--d:13s;--delay:-9s">🏆</span>
+  </div>
+
+  <!-- Ambient Flying Wildlife Elements -->
+  <div class="creature c1">🦋</div>
+  <div class="creature c2">🕊️</div>
+  <div class="creature c3">✨</div>
+
+  <!-- Main View Wrap -->
+  <div class="container mx-auto px-4 sm:px-6 lg:px-10 py-6 max-w-7xl flex-grow flex flex-col justify-center relative z-10">
+
+    <!-- Auth View Container -->
+    <div id="auth-view" class="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto my-auto py-4">
+      
+      <!-- Login Card -->
+      <div id="login-card" class="bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-9 md:p-11 shadow-2xl border border-purple-100">
+        <div class="text-center mb-6">
+          <span class="text-5xl">🚀</span>
+          <h2 class="text-2xl sm:text-3xl font-bold gradient-text mt-2">เข้าสู่ระบบ VocabMaster</h2>
+          <p class="text-slate-500 text-sm sm:text-base mt-1">เรียนรู้ภาษาอังกฤษได้ทุกที่ ทุกเวลา</p>
+        </div>
+        
+        <div id="login-error-msg" class="text-sm text-red-500 font-bold hidden text-center bg-red-50 py-2.5 px-3 rounded-xl border border-red-200 mb-4"></div>
+
+        <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5">อีเมล (Email)</label>
+            <input type="email" id="login-email" required placeholder="user@example.com" class="w-full px-4 py-3.5 sm:py-4 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5">รหัสผ่าน (Password)</label>
+            <div class="relative">
+              <input type="password" id="login-pass" required placeholder="••••••••" class="w-full px-4 py-3.5 sm:py-4 pr-12 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
+              <button type="button" onclick="togglePassVisibility(['login-pass'], this)" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-xl text-slate-400 hover:text-purple-600 focus:outline-none">👁️</button>
+            </div>
+          </div>
+          <button type="submit" class="w-full py-4 text-base sm:text-lg rounded-2xl gradient-btn text-white font-bold shadow-lg shadow-purple-500/20 active:scale-95 transition">
+            เข้าสู่ระบบ
+          </button>
+        </form>
+        <p class="text-center text-sm text-slate-500 mt-6">ยังไม่มีบัญชี? <button onclick="toggleAuth('signup')" class="text-purple-600 font-bold underline">สมัครสมาชิก</button></p>
+      </div>
+
+      <!-- Signup Card -->
+      <div id="signup-card" class="hidden bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-9 md:p-11 shadow-2xl border border-purple-100">
+        <div class="text-center mb-6">
+          <span class="text-5xl">✨</span>
+          <h2 class="text-2xl sm:text-3xl font-bold gradient-text mt-2">สมัครสมาชิก</h2>
+          <p class="text-slate-500 text-sm sm:text-base mt-1">เรียนรู้ภาษาอังกฤษได้ทุกที่ ทุกเวลา</p>
+        </div>
+
+        <div id="signup-error-msg" class="text-sm text-red-500 font-bold hidden text-center bg-red-50 py-2.5 px-3 rounded-xl border border-red-200 mb-4"></div>
+
+        <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5">ชื่อผู้ใช้ (Username)</label>
+            <input type="text" id="signup-name" required placeholder="ชื่อของคุณ" class="w-full px-4 py-3.5 sm:py-4 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5">อีเมล (Email)</label>
+            <input type="email" id="signup-email" required placeholder="user@example.com" class="w-full px-4 py-3.5 sm:py-4 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5">รหัสผ่าน (อย่างน้อย 8 ตัว มีทั้งตัวอักษรและตัวเลข)</label>
+            <div class="relative">
+              <input type="password" id="signup-pass" oninput="syncSignupPassword(this.value)" required placeholder="••••••••" class="w-full px-4 py-3.5 sm:py-4 pr-12 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
+              <button type="button" onclick="togglePassVisibility(['signup-pass', 'signup-pass-confirm'], this)" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-xl text-slate-400 hover:text-purple-600 focus:outline-none" title="เปิด/ปิดดูรหัสผ่าน">👁️</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5">ยืนยันรหัสผ่าน (Confirm Password)</label>
+            <input type="password" id="signup-pass-confirm" required placeholder="••••••••" class="w-full px-4 py-3.5 sm:py-4 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition bg-slate-50">
+          </div>
+
+          <button type="submit" class="w-full py-4 text-base sm:text-lg rounded-2xl gradient-btn text-white font-bold shadow-lg shadow-purple-500/20 active:scale-95 transition">
+            ลงทะเบียน
+          </button>
+        </form>
+        <p class="text-center text-sm text-slate-500 mt-6">มีบัญชีอยู่แล้ว? <button onclick="toggleAuth('login')" class="text-purple-600 font-bold underline">เข้าสู่ระบบ</button></p>
+      </div>
+
+    </div>
+
+    <!-- Main View (After Login) -->
+    <div id="main-view" class="hidden w-full my-4">
+      <header id="home-header" class="relative overflow-hidden bg-white/90 backdrop-blur-md rounded-3xl p-6 shadow-xl shadow-purple-950/5 border border-purple-100 mb-6">
+        <div class="flex items-center justify-between mb-4 pb-4 border-b border-purple-100 flex-wrap gap-2 relative z-10">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">📚</span>
+            <span class="font-bold text-slate-700 text-sm" id="user-display">สวัสดีผู้ใช้งาน</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="openLogoutConfirmModal()" class="px-5 py-2.5 rounded-xl bg-red-50 text-red-600 text-sm font-bold hover:bg-red-100 transition">ออกจากระบบ</button>
+          </div>
+        </div>
+
+        <div class="relative z-10">
+          <h1 class="text-2xl md:text-3xl font-extrabold gradient-text">คลังเรียนรู้ภาษาอังกฤษ</h1>
+          <p class="text-slate-500 text-xs md:text-sm mt-1.5">เลือกหมวดหมู่ที่ต้องการเรียนรู้ได้เลย</p>
+          <p class="text-slate-500 text-xs md:text-sm mt-1">💡 เรียนทีละนิด ฝึกบ่อยๆ แล้วคุณจะเก่งขึ้นได้อย่างแน่นอน</p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="text-[11px] md:text-xs font-bold text-purple-700 bg-purple-100/70 border border-purple-200 px-3 py-1 rounded-full">💡 ฟังเสียงแล้วพูดตามทุกประโยค</span>
+            <span class="text-[11px] md:text-xs font-bold text-pink-700 bg-pink-100/70 border border-pink-200 px-3 py-1 rounded-full">📅 ท่องคำศัพท์วันละ 10 คำ</span>
+            <span class="text-[11px] md:text-xs font-bold text-sky-700 bg-sky-100/70 border border-sky-200 px-3 py-1 rounded-full">✅ ทำแบบฝึกหัดท้ายบทให้ได้เกิน 70%</span>
+          </div>
+        </div>
+
+        <!-- Balanced Stars decorative elements distributed on BOTH Left and Right sides -->
+        <div class="cute-deco" aria-hidden="true">
+          <!-- Left side stars -->
+          <span class="star" style="--x:2.5%;--y:12%;--s:0.9rem;--c:#c084fc;--d:2.6s;--delay:-2.4s">★</span>
+          <span class="star" style="--x:6.2%;--y:45%;--s:1.2rem;--c:#f472b6;--d:3.1s;--delay:-1.2s">✦</span>
+          <span class="star" style="--x:11.5%;--y:75%;--s:0.8rem;--c:#fbbf24;--d:2.8s;--delay:-0.5s">★</span>
+          <span class="star" style="--x:15.8%;--y:25%;--s:1.1rem;--c:#a78bfa;--d:3.4s;--delay:-1.8s">✧</span>
+          <span class="star" style="--x:21.0%;--y:60%;--s:1.0rem;--c:#fb7185;--d:4.0s;--delay:-2.1s">★</span>
+          <span class="star" style="--x:27.4%;--y:18%;--s:1.3rem;--c:#fcd34d;--d:3.2s;--delay:-3.0s">★</span>
+          <span class="star" style="--x:32.0%;--y:80%;--s:0.8rem;--c:#c084fc;--d:2.5s;--delay:-1.5s">✦</span>
+          <span class="star" style="--x:38.5%;--y:35%;--s:1.1rem;--c:#f472b6;--d:3.7s;--delay:-0.8s">★</span>
+
+          <!-- Center area stars -->
+          <span class="star" style="--x:45.0%;--y:15%;--s:1.0rem;--c:#a78bfa;--d:3.3s;--delay:-1.4s">✧</span>
+          <span class="star" style="--x:51.2%;--y:70%;--s:0.8rem;--c:#fb7185;--d:4.0s;--delay:-0.8s">★</span>
+          <span class="star" style="--x:58.4%;--y:28%;--s:1.2rem;--c:#fbbf24;--d:3.0s;--delay:-4.4s">★</span>
+
+          <!-- Right side stars -->
+          <span class="star" style="--x:63.3%;--y:78%;--s:0.9rem;--c:#a78bfa;--d:2.8s;--delay:-1.9s">✧</span>
+          <span class="star" style="--x:68.7%;--y:20%;--s:1.1rem;--c:#fb7185;--d:4.5s;--delay:-1.9s">★</span>
+          <span class="star" style="--x:74.5%;--y:55%;--s:1.3rem;--c:#fcd34d;--d:3.1s;--delay:-1.6s">★</span>
+          <span class="star" style="--x:80.2%;--y:14%;--s:0.8rem;--c:#c084fc;--d:4.2s;--delay:-0.9s">✦</span>
+          <span class="star" style="--x:85.6%;--y:72%;--s:1.2rem;--c:#f472b6;--d:3.6s;--delay:-2.2s">★</span>
+          <span class="star" style="--x:91.0%;--y:30%;--s:1.0rem;--c:#fbbf24;--d:3.5s;--delay:-1.3s">✧</span>
+          <span class="star" style="--x:96.2%;--y:65%;--s:1.1rem;--c:#a78bfa;--d:4.1s;--delay:-2.7s">★</span>
+        </div>
+      </header>
+
+      <!-- Category Hub -->
+      <section id="hub-view">
+       <div>
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-5 md:p-6 shadow-xl shadow-purple-950/5 border border-purple-100">
+        <h2 class="text-lg md:text-xl font-extrabold text-slate-800 mb-4 px-1">หมวดหมู่การเรียนรู้</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
+
+          <button onclick="showLesson()" class="relative text-left rounded-3xl p-5 border-2 border-sky-600 bg-gradient-to-b from-white to-sky-50 shadow-lg shadow-sky-900/10 hover:-translate-y-1 hover:shadow-xl transition-all">
+            <span class="absolute top-3 right-3 bg-sky-700 text-white text-[11px] font-bold px-2.5 py-1 rounded-full">บทเรียนประโยค</span>
+            <div class="h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-2xl mb-4">💬</div>
+            <h3 class="text-lg font-extrabold text-slate-800 mb-1.5">ประโยคภาษาอังกฤษ</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4">ประโยคตัวอย่างภาษาอังกฤษพร้อมคำอ่านไทย คำแปล ปุ่มฟังเสียง และช่องค้นหา</p>
+            <span class="text-sm font-bold text-sky-700">เข้าสู่บทเรียน →</span>
+          </button>
+
+          <button onclick="showGrammar()" class="relative text-left rounded-3xl p-5 border-2 border-purple-500 bg-gradient-to-b from-white to-purple-50 shadow-lg shadow-purple-900/10 hover:-translate-y-1 hover:shadow-xl transition-all">
+            <span class="absolute top-3 right-3 bg-purple-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full">12 บทเรียน</span>
+            <div class="h-14 rounded-2xl bg-purple-100 flex items-center justify-center text-2xl mb-4">✏️</div>
+            <h3 class="text-lg font-extrabold text-slate-800 mb-1.5">ไวยากรณ์ (Grammar)</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4">เรียนไวยากรณ์ตั้งแต่พื้นฐานถึง Tenses พร้อมสูตร ตัวอย่าง คำแปล และปุ่มฟังเสียง</p>
+            <span class="text-sm font-bold text-purple-700">เข้าสู่บทเรียนไวยากรณ์ →</span>
+          </button>
+
+          <div class="relative rounded-3xl p-5 border border-purple-100 bg-purple-50/60 opacity-60 cursor-not-allowed select-none">
+            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[11px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+            <div class="h-14 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-4">📖</div>
+            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5">คำศัพท์ตามหมวดหมู่</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4">คลังคำศัพท์ A1-C2 แยกตามสถานการณ์ในชีวิตประจำวัน (กำลังพัฒนา...)</p>
+            <span class="text-sm font-bold text-slate-400">Coming Soon</span>
+          </div>
+
+          <div class="relative rounded-3xl p-5 border border-purple-100 bg-purple-50/60 opacity-60 cursor-not-allowed select-none">
+            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[11px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+            <div class="h-14 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-4">🎧</div>
+            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5">ฝึกฟัง (Listening)</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4">ฝึกฟังบทสนทนาและเรื่องสั้นภาษาอังกฤษ (กำลังพัฒนา...)</p>
+            <span class="text-sm font-bold text-slate-400">Coming Soon</span>
+          </div>
+
+        </div>
+        </div>
+
+       </div>
+      </section>
+
+      <!-- Grammar View -->
+      <section id="grammar-view" class="hidden w-full max-w-6xl mx-auto">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-5 md:p-6 shadow-xl shadow-purple-950/5 border border-purple-100 mb-6">
+          <div class="flex items-center justify-between">
+            <button onclick="gBack()" id="g-back" class="px-3.5 py-1.5 rounded-xl bg-purple-50 text-purple-700 text-xs font-bold hover:bg-purple-100 transition">← กลับไปหมวดหมู่</button>
+            <span class="text-sm font-extrabold text-slate-700">✏️ ไวยากรณ์ (Grammar)</span>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-600 mb-1.5"><span id="g-prog-text">เรียนจบแล้ว 0/12 บท</span><span id="g-prog-pct">0%</span></div>
+            <div class="h-2.5 rounded-full bg-purple-100 overflow-hidden"><div id="g-prog-bar" class="h-full gradient-btn rounded-full transition-all" style="width:0%"></div></div>
+            <button id="g-resume" onclick="gResume()" class="hidden mt-3 px-3.5 py-2 rounded-xl bg-purple-50 text-purple-700 text-xs font-bold hover:bg-purple-100 text-left leading-snug"></button>
+          </div>
+          <div id="g-search-wrap" class="mt-4 relative">
+            <input type="text" id="g-search" oninput="renderGrammarList()" placeholder="ค้นหาบทเรียน Grammar (เช่น tense, modal, บทที่ 6)..." class="w-full px-5 py-3 pl-11 rounded-2xl border border-purple-200 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 outline-none text-sm text-slate-700 bg-purple-50/30">
+            <span class="absolute left-4 top-3.5 text-slate-400">🔍</span>
+          </div>
+        </div>
+        <div id="grammar-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+        <div id="grammar-lesson" class="hidden bg-white/90 backdrop-blur-md rounded-3xl p-5 md:p-6 shadow-xl shadow-purple-950/5 border border-purple-100 space-y-3"></div>
+      </section>
+
+      <!-- Lesson View: English Sentences -->
+      <section id="lesson-view" class="hidden w-full max-w-4xl mx-auto">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-5 md:p-6 shadow-xl shadow-purple-950/5 border border-purple-100 text-center mb-6">
+          <div class="flex items-center justify-between mb-4 text-left">
+            <button onclick="showHub()" class="px-3.5 py-1.5 rounded-xl bg-purple-50 text-purple-700 text-xs font-bold hover:bg-purple-100 transition">← กลับไปหมวดหมู่</button>
+            <span class="text-sm font-extrabold text-slate-700">💬 ประโยคภาษาอังกฤษ</span>
+          </div>
+
+          <!-- Page Navigation Tabs (1 - 11) -->
+          <div class="flex flex-wrap justify-center gap-1.5 md:gap-2" id="page-tabs"></div>
+
+          <!-- Real-time Search Box -->
+          <div class="mt-5 max-w-md mx-auto relative">
+            <input type="text" id="search-input" oninput="handleSearch()" placeholder="ค้นหาทันที (เช่น 'alw' หรือตัวอักษร 1 ตัว)..."
+              class="w-full px-5 py-3 pl-11 rounded-2xl border border-purple-200 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 outline-none transition-all text-slate-700 bg-purple-50/30 text-sm">
+            <span class="absolute left-4 top-3.5 text-slate-400">🔍</span>
+          </div>
+        </div>
+
+        <!-- Sentences List Container -->
+        <main class="space-y-4" id="sentences-container"></main>
+
+        <!-- Empty State -->
+        <div id="no-results" class="hidden bg-white/80 backdrop-blur-md rounded-3xl p-8 text-center text-slate-500 border border-purple-100 mt-4">
+          <span class="text-3xl mb-2 inline-block">🔎</span>
+          <p class="font-medium text-slate-600">ไม่พบคำศัพท์หรือประโยคที่ตรงกับคำค้นหาของคุณ</p>
+        </div>
+      </section>
+    </div>
+
+  </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div id="logout-confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-xs w-full text-center shadow-2xl border border-purple-100">
+      <span class="text-4xl mb-2 inline-block">🚪</span>
+      <h3 class="text-lg font-bold text-slate-800 mb-1">ยืนยันออกจากระบบ</h3>
+      <p class="text-xs text-slate-500 mb-6">คุณต้องการออกจากระบบใช่หรือไม่?</p>
+      <div class="flex gap-3">
+        <button onclick="closeLogoutConfirmModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 text-slate-600 font-bold text-xs hover:bg-slate-200 transition">ยกเลิก</button>
+        <button onclick="confirmLogout()" class="flex-1 py-2.5 rounded-xl gradient-btn text-white font-bold text-xs shadow-md transition">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ultra Cool Processing Modal Overlay -->
+  <div id="processing-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-purple-500/30 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-12 -left-12 w-24 h-24 bg-purple-500/20 rounded-full blur-xl"></div>
+      <div class="absolute -bottom-12 -right-12 w-24 h-24 bg-pink-500/20 rounded-full blur-xl"></div>
+      
+      <div class="relative w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+        <div class="w-full h-full rounded-full border-4 border-purple-500/20 glow-pulse"></div>
+        <div class="absolute inset-0 rounded-full border-t-4 border-pink-500 animate-spin"></div>
+        <span class="text-2xl absolute" id="modal-icon">🛡️</span>
+      </div>
+
+      <h3 class="text-lg font-bold text-white mb-2" id="modal-title">กำลังดำเนินการ...</h3>
+      <p class="text-xs text-purple-300 mb-6" id="modal-status">กำลังตรวจสอบระบบความปลอดภัย</p>
+      
+      <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden border border-purple-900">
+        <div id="modal-progress" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full animate-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center text-sm sm:text-base text-slate-500 py-5 px-4 relative z-10">
+    <a href="https://chachaphon15y.github.io/3092011" target="_blank" rel="noopener noreferrer" style="color: #9333ea; text-decoration: underline; font-weight: bold;">หากพบข้อผิดพลาด ติดต่อ chachaphon15y.github.io/3092011</a>
+  </footer>
+
+  <script>
+    /* JavaScript logic stays intact */
+    const rawWords = { 1: ["hometown", "yard", "grocery"] };
+    function checkSession() {
+      const active = localStorage.getItem('active_user');
+      if (active) {
+        const user = JSON.parse(active);
+        document.getElementById('user-display').innerText = `สวัสดี, ${user.name}`;
+        document.getElementById('auth-view').classList.add('hidden');
+        document.getElementById('main-view').classList.remove('hidden');
+      } else {
+        document.getElementById('auth-view').classList.remove('hidden');
+        document.getElementById('main-view').classList.add('hidden');
+      }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      checkSession();
+    });
+  </script>
+</body>
+</html>
