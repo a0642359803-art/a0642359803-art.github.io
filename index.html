@@ -22,6 +22,11 @@
   </script>
 
   <style>
+    html { font-size: 17.5px; }
+    /* full-screen sub pages (no top tabs) */
+    body.vm-full .container { max-width: 100% !important; }
+    body.vm-full .vm-page { max-width: 100% !important; }
+    body.vm-full .vm-page > div { min-height: calc(100vh - 3rem); }
     .gradient-bg { background: linear-gradient(135deg, #f3e8ff 0%, #fce7f3 100%); }
     .gradient-btn { background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); }
     .gradient-btn:hover { background: linear-gradient(135deg, #9333ea 0%, #db2777 100%); }
@@ -158,7 +163,7 @@
       #home-header > div:first-of-type { margin-bottom: 10px !important; padding-bottom: 10px !important; }
       #home-header h1 { font-size: 1.3rem !important; }
       #home-header p { font-size: .72rem !important; margin-top: 3px !important; }
-      #home-header span.rounded-full { font-size: 10px !important; padding: 3px 9px !important; }
+      #home-header span.rounded-full { font-size: 11px !important; padding: 3px 9px !important; }
       #home-header button[onclick^="openLogout"] { padding: 6px 12px !important; font-size: .72rem !important; border-radius: 10px !important; }
       #home-header .text-2xl { font-size: 1.25rem !important; }
 
@@ -166,12 +171,12 @@
       #hub-view h2 { font-size: 1rem !important; margin-bottom: 10px !important; }
       #hub-view .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
       #hub-view .grid > * { padding: 10px !important; border-radius: 18px !important; }
-      #hub-view .grid > * > span.absolute { top: 6px !important; right: 6px !important; font-size: 9px !important; padding: 2px 7px !important; }
+      #hub-view .grid > * > span.absolute { top: 6px !important; right: 6px !important; font-size: 10px !important; padding: 2px 7px !important; }
       #hub-view .grid > * > div { height: 38px !important; font-size: 1.1rem !important; margin-bottom: 8px !important; border-radius: 12px !important; }
       #hub-view .grid > * > h3 { font-size: .82rem !important; line-height: 1.25 !important; margin-bottom: 4px !important; }
-      #hub-view .grid > * > p { font-size: 10px !important; line-height: 1.35 !important; margin-bottom: 6px !important;
+      #hub-view .grid > * > p { font-size: 11px !important; line-height: 1.35 !important; margin-bottom: 6px !important;
         display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-      #hub-view .grid > * > span:last-child { font-size: 10.5px !important; }
+      #hub-view .grid > * > span:last-child { font-size: 11.5px !important; }
 
       #auth-view { max-width: 21rem !important; }
       #login-card, #signup-card { padding: 18px !important; border-radius: 22px !important; }
@@ -187,6 +192,42 @@
       #auth-view p.text-center { font-size: .78rem !important; margin-top: 14px !important; }
       footer { font-size: .72rem !important; padding: 10px 12px !important; }
     }
+
+    /* ===== Site menu + new pages (add-on) ===== */
+    .vm-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 8px 2px; border-radius: 14px;
+      font-weight: 700; font-size: 12px; line-height: 1.15; color: #6b21a8; text-align: center; -webkit-tap-highlight-color: transparent;
+      transition: background .25s, color .25s, box-shadow .25s, transform .15s; }
+    .vm-tab .ic { font-size: 1.15rem; line-height: 1; }
+    .vm-tab:hover { background: rgba(168,85,247,.12); }
+    .vm-tab:active { transform: scale(.96); }
+    .vm-tab.active { background: linear-gradient(135deg, #a855f7, #ec4899); color: #fff; box-shadow: 0 6px 16px -4px rgba(168,85,247,.6), 0 0 18px rgba(236,72,153,.35); }
+    @media (min-width: 640px) { .vm-tab { flex-direction: row; gap: 8px; font-size: .95rem; padding: 11px 8px; } .vm-tab .ic { font-size: 1.2rem; } }
+    .vm-back { padding: 8px 14px; border-radius: 12px; background: rgba(168,85,247,.1); color: #7e22ce; font-size: .8rem; font-weight: 700; transition: background .2s, transform .15s; }
+    .vm-back:hover { background: rgba(168,85,247,.2); } .vm-back:active { transform: scale(.96); }
+    .vm-star { font-size: 2.1rem; line-height: 1; color: #d8b4fe; padding: 2px 4px; transition: transform .15s, color .15s; -webkit-tap-highlight-color: transparent; }
+    .vm-star.on { color: #f59e0b; text-shadow: 0 0 12px rgba(245,158,11,.55); }
+    .vm-star:active { transform: scale(.85); }
+    .vm-opt { width: 100%; text-align: left; padding: 12px 14px; border-radius: 16px; border: 2px solid rgba(168,85,247,.25); background: rgba(255,255,255,.7);
+      font-weight: 700; font-size: .95rem; color: #3b0764; transition: transform .15s, background .2s, border-color .2s; }
+    .vm-opt:hover:not(:disabled) { border-color: #a855f7; background: rgba(168,85,247,.1); }
+    .vm-opt:active:not(:disabled) { transform: scale(.98); }
+    .vm-opt.right { background: #dcfce7; border-color: #22c55e; color: #166534; }
+    .vm-opt.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+    .vm-input { width: 100%; padding: 11px 14px; border-radius: 14px; border: 1px solid rgba(168,85,247,.35); background: rgba(255,255,255,.85); outline: none; font-size: 16px; color: #1e293b; }
+    .vm-input:focus { border-color: #ec4899; box-shadow: 0 0 0 3px rgba(244,114,182,.25); }
+    details.vm-pol { border-radius: 18px; border: 1px solid rgba(168,85,247,.25); background: rgba(255,255,255,.65); margin-bottom: 10px; overflow: hidden; }
+    details.vm-pol > summary { cursor: pointer; padding: 13px 16px; font-weight: 800; color: #581c87; list-style: none; display: flex; align-items: center; gap: 10px; font-size: .95rem; }
+    details.vm-pol > summary::-webkit-details-marker { display: none; }
+    details.vm-pol > summary::after { content: "＋"; margin-left: auto; color: #a855f7; font-weight: 800; }
+    details.vm-pol[open] > summary::after { content: "－"; }
+    details.vm-pol .body { padding: 0 16px 14px 16px; color: #475569; font-size: .85rem; line-height: 1.7; }
+    details.vm-pol .body li { margin-left: 1.1rem; list-style: disc; }
+    .vm-paused *, .vm-paused *::before, .vm-paused *::after { animation-play-state: paused !important; }
+    @media (max-width: 639px) {
+      .bg-white\/90, .bg-white\/95 { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+      .vm-page .vm-title { font-size: 1.05rem !important; }
+    }
+    @media (prefers-reduced-motion: reduce) { .vm-star, .vm-tab { transition: none !important; } }
 
     /* ===== Category screens pop in on their own ===== */
     .pop-in { animation: popIn .45s cubic-bezier(.2,.9,.3,1.15) both; }
@@ -235,79 +276,88 @@
     <!-- Auth View Container -->
     <div id="auth-view" class="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto my-auto py-4">
       
+      <div class="flex justify-end mb-3">
+        <div class="inline-flex items-center gap-1 bg-white/90 border border-purple-200 rounded-full p-1 shadow-md" role="group" aria-label="Language">
+          <span class="pl-2 text-base">🌐</span>
+          <button type="button" id="lang-th" onclick="setLang('th')" class="px-3.5 py-1.5 rounded-full text-sm font-bold transition">ไทย</button>
+          <button type="button" id="lang-en" onclick="setLang('en')" class="px-3.5 py-1.5 rounded-full text-sm font-bold transition">English</button>
+        </div>
+      </div>
+      
       <!-- Login Card -->
       <div id="login-card" class="bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-9 md:p-11 shadow-2xl border border-purple-100">
         <div class="text-center mb-6">
           <span class="text-5xl">🚀</span>
-          <h2 class="text-2xl sm:text-3xl font-bold gradient-text mt-2">เข้าสู่ระบบ VocabMaster</h2>
-          <p class="text-slate-500 text-sm sm:text-base mt-1">เรียนรู้ภาษาอังกฤษได้ทุกที่ ทุกเวลา</p>
+          <h2 class="text-2xl sm:text-3xl font-bold gradient-text mt-2" data-i18n="login_title">เข้าสู่ระบบ VocabMaster</h2>
+          <p class="text-slate-500 text-sm sm:text-base mt-1" data-i18n="subtitle">เรียนรู้ภาษาอังกฤษได้ทุกที่ ทุกเวลา</p>
         </div>
         
         <div id="login-error-msg" class="text-sm text-red-500 font-bold hidden text-center bg-red-50 py-2.5 px-3 rounded-xl border border-red-200 mb-4"></div>
 
         <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
           <div>
-            <label class="block text-sm font-semibold text-slate-500 mb-1.5">อีเมล (Email)</label>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5" data-i18n="email">อีเมล (Email)</label>
             <input type="email" id="login-email" required placeholder="user@example.com" class="w-full px-4 py-3.5 sm:py-4 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
           </div>
           <div>
-            <label class="block text-sm font-semibold text-slate-500 mb-1.5">รหัสผ่าน (Password)</label>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5" data-i18n="password">รหัสผ่าน (Password)</label>
             <div class="relative">
               <input type="password" id="login-pass" required placeholder="••••••••" class="w-full px-4 py-3.5 sm:py-4 pr-12 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
               <button type="button" onclick="togglePassVisibility(['login-pass'], this)" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-xl text-slate-400 hover:text-purple-600 focus:outline-none">👁️</button>
             </div>
           </div>
-          <button type="submit" class="w-full py-4 text-base sm:text-lg rounded-2xl gradient-btn text-white font-bold shadow-lg shadow-purple-500/20 active:scale-95 transition">
-            เข้าสู่ระบบ
-          </button>
+          <button type="submit" class="w-full py-4 text-base sm:text-lg rounded-2xl gradient-btn text-white font-bold shadow-lg shadow-purple-500/20 active:scale-95 transition" data-i18n="login_btn">เข้าสู่ระบบ</button>
         </form>
-        <p class="text-center text-sm text-slate-500 mt-6">ยังไม่มีบัญชี? <button onclick="toggleAuth('signup')" class="text-purple-600 font-bold underline">สมัครสมาชิก</button></p>
+        <p class="text-center text-sm text-slate-500 mt-6"><span data-i18n="no_account">ยังไม่มีบัญชี?</span> <button onclick="toggleAuth('signup')" class="text-purple-600 font-bold underline" data-i18n="signup_link">สมัครสมาชิก</button></p>
       </div>
 
       <!-- Signup Card -->
       <div id="signup-card" class="hidden bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-9 md:p-11 shadow-2xl border border-purple-100">
         <div class="text-center mb-6">
           <span class="text-5xl">✨</span>
-          <h2 class="text-2xl sm:text-3xl font-bold gradient-text mt-2">สมัครสมาชิก</h2>
-          <p class="text-slate-500 text-sm sm:text-base mt-1">เรียนรู้ภาษาอังกฤษได้ทุกที่ ทุกเวลา</p>
+          <h2 class="text-2xl sm:text-3xl font-bold gradient-text mt-2" data-i18n="signup_title">สมัครสมาชิก</h2>
+          <p class="text-slate-500 text-sm sm:text-base mt-1" data-i18n="subtitle">เรียนรู้ภาษาอังกฤษได้ทุกที่ ทุกเวลา</p>
         </div>
 
         <div id="signup-error-msg" class="text-sm text-red-500 font-bold hidden text-center bg-red-50 py-2.5 px-3 rounded-xl border border-red-200 mb-4"></div>
 
         <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-4">
           <div>
-            <label class="block text-sm font-semibold text-slate-500 mb-1.5">ชื่อผู้ใช้ (Username)</label>
-            <input type="text" id="signup-name" required placeholder="ชื่อของคุณ" class="w-full px-4 py-3.5 sm:py-4 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5" data-i18n="username">ชื่อผู้ใช้ (Username)</label>
+            <input type="text" id="signup-name" required placeholder="ชื่อของคุณ" data-i18n-ph="name_ph" class="w-full px-4 py-3.5 sm:py-4 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
           </div>
           <div>
-            <label class="block text-sm font-semibold text-slate-500 mb-1.5">อีเมล (Email)</label>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5" data-i18n="email">อีเมล (Email)</label>
             <input type="email" id="signup-email" required placeholder="user@example.com" class="w-full px-4 py-3.5 sm:py-4 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
           </div>
           
           <div>
-            <label class="block text-sm font-semibold text-slate-500 mb-1.5">รหัสผ่าน (อย่างน้อย 8 ตัว มีทั้งตัวอักษรและตัวเลข)</label>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5" data-i18n="password_rule">รหัสผ่าน (อย่างน้อย 8 ตัว มีทั้งตัวอักษรและตัวเลข)</label>
             <div class="relative">
               <input type="password" id="signup-pass" oninput="syncSignupPassword(this.value)" required placeholder="••••••••" class="w-full px-4 py-3.5 sm:py-4 pr-12 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition">
-              <button type="button" onclick="togglePassVisibility(['signup-pass', 'signup-pass-confirm'], this)" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-xl text-slate-400 hover:text-purple-600 focus:outline-none" title="เปิด/ปิดดูรหัสผ่าน">👁️</button>
+              <button type="button" onclick="togglePassVisibility(['signup-pass', 'signup-pass-confirm'], this)" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-xl text-slate-400 hover:text-purple-600 focus:outline-none" title="เปิด/ปิดดูรหัสผ่าน" data-i18n-title="toggle_pw">👁️</button>
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-semibold text-slate-500 mb-1.5">ยืนยันรหัสผ่าน (Confirm Password)</label>
+            <label class="block text-sm font-semibold text-slate-500 mb-1.5" data-i18n="confirm">ยืนยันรหัสผ่าน (Confirm Password)</label>
             <input type="password" id="signup-pass-confirm" required placeholder="••••••••" class="w-full px-4 py-3.5 sm:py-4 rounded-2xl border border-purple-200 outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base transition bg-slate-50">
           </div>
 
-          <button type="submit" class="w-full py-4 text-base sm:text-lg rounded-2xl gradient-btn text-white font-bold shadow-lg shadow-purple-500/20 active:scale-95 transition">
-            ลงทะเบียน
-          </button>
+          <button type="submit" class="w-full py-4 text-base sm:text-lg rounded-2xl gradient-btn text-white font-bold shadow-lg shadow-purple-500/20 active:scale-95 transition" data-i18n="register_btn">ลงทะเบียน</button>
         </form>
-        <p class="text-center text-sm text-slate-500 mt-6">มีบัญชีอยู่แล้ว? <button onclick="toggleAuth('login')" class="text-purple-600 font-bold underline">เข้าสู่ระบบ</button></p>
+        <p class="text-center text-sm text-slate-500 mt-6"><span data-i18n="have_account">มีบัญชีอยู่แล้ว?</span> <button onclick="toggleAuth('login')" class="text-purple-600 font-bold underline" data-i18n="login_link">เข้าสู่ระบบ</button></p>
       </div>
 
     </div>
 
     <!-- Main View (After Login) -->
     <div id="main-view" class="hidden w-full my-4">
+      <div id="lang-float" class="fixed bottom-4 right-4 z-50 inline-flex items-center gap-1 bg-white/95 border border-purple-200 rounded-full p-1 shadow-xl" role="group" aria-label="Language">
+        <span class="pl-2 text-base">🌐</span>
+        <button type="button" id="lang-th2" onclick="setLang('th')" class="px-3 py-1.5 rounded-full text-sm font-bold transition">ไทย</button>
+        <button type="button" id="lang-en2" onclick="setLang('en')" class="px-3 py-1.5 rounded-full text-sm font-bold transition">English</button>
+      </div>
       <header id="home-header" class="relative overflow-hidden bg-white/90 backdrop-blur-md rounded-3xl p-6 shadow-xl shadow-purple-950/5 border border-purple-100 mb-6">
         <div class="flex items-center justify-between mb-4 pb-4 border-b border-purple-100 flex-wrap gap-2">
           <div class="flex items-center gap-2">
@@ -317,17 +367,17 @@
 
           <div class="flex items-center gap-2">
 
-            <button onclick="openLogoutConfirmModal()" class="px-5 py-2.5 rounded-xl bg-red-50 text-red-600 text-sm font-bold hover:bg-red-100 transition">ออกจากระบบ</button>
+            <button onclick="openLogoutConfirmModal()" class="px-5 py-2.5 rounded-xl bg-red-50 text-red-600 text-sm font-bold hover:bg-red-100 transition" data-i18n="k2">ออกจากระบบ</button>
           </div>
         </div>
 
-        <h1 class="text-2xl md:text-3xl font-extrabold gradient-text">คลังเรียนรู้ภาษาอังกฤษ</h1>
-        <p class="text-slate-500 text-xs md:text-sm mt-1.5">เลือกหมวดหมู่ที่ต้องการเรียนรู้ได้เลย</p>
-        <p class="text-slate-500 text-xs md:text-sm mt-1">💡 เรียนทีละนิด ฝึกบ่อยๆ แล้วคุณจะเก่งขึ้นได้อย่างแน่นอน</p>
+        <h1 class="text-2xl md:text-3xl font-extrabold gradient-text" data-i18n="k3">คลังเรียนรู้ภาษาอังกฤษ</h1>
+        <p class="text-slate-500 text-xs md:text-sm mt-1.5" data-i18n="k4">เลือกหมวดหมู่ที่ต้องการเรียนรู้ได้เลย</p>
+        <p class="text-slate-500 text-xs md:text-sm mt-1" data-i18n="k5">💡 เรียนทีละนิด ฝึกบ่อยๆ แล้วคุณจะเก่งขึ้นได้อย่างแน่นอน</p>
         <div class="flex flex-wrap gap-2 mt-3">
-          <span class="text-[11px] md:text-xs font-bold text-purple-700 bg-purple-100/70 border border-purple-200 px-3 py-1 rounded-full">💡 ฟังเสียงแล้วพูดตามทุกประโยค</span>
-          <span class="text-[11px] md:text-xs font-bold text-pink-700 bg-pink-100/70 border border-pink-200 px-3 py-1 rounded-full">📅 ท่องคำศัพท์วันละ 10 คำ</span>
-          <span class="text-[11px] md:text-xs font-bold text-sky-700 bg-sky-100/70 border border-sky-200 px-3 py-1 rounded-full">✅ ทำแบบฝึกหัดท้ายบทให้ได้เกิน 70%</span>
+          <span class="text-[12px] md:text-xs font-bold text-purple-700 bg-purple-100/70 border border-purple-200 px-3 py-1 rounded-full" data-i18n="k6">💡 ฟังเสียงแล้วพูดตามทุกประโยค</span>
+          <span class="text-[12px] md:text-xs font-bold text-pink-700 bg-pink-100/70 border border-pink-200 px-3 py-1 rounded-full" data-i18n="k7">📅 ท่องคำศัพท์วันละ 10 คำ</span>
+          <span class="text-[12px] md:text-xs font-bold text-sky-700 bg-sky-100/70 border border-sky-200 px-3 py-1 rounded-full" data-i18n="k8">✅ ทำแบบฝึกหัดท้ายบทให้ได้เกิน 70%</span>
         </div>
 
         <div class="cute-deco" aria-hidden="true">
@@ -424,82 +474,94 @@
         </div>
       </header>
 
+      <!-- Site menu (add-on) -->
+      <nav id="site-nav" aria-label="เมนูหลัก" class="bg-white/90 backdrop-blur-md rounded-2xl p-1.5 shadow-lg shadow-purple-950/5 border border-purple-100 mb-4">
+        <div class="grid grid-cols-3 gap-1">
+          <button type="button" class="vm-tab active" data-page="home" onclick="vmGo('home')"><span class="ic">🏠</span><span data-i18n="k9">หน้าหลัก</span></button>
+          <button type="button" class="vm-tab" data-page="games" onclick="vmGo('games')"><span class="ic">🎮</span><span data-i18n="k10">เล่นเกม</span></button>
+          <button type="button" class="vm-tab" data-page="policy" onclick="vmGo('policy')"><span class="ic">📜</span><span data-i18n="k11">นโยบาย</span></button>
+        </div>
+        <div id="vm-presence" class="text-center text-[12px] sm:text-xs text-slate-500 pt-1.5 pb-0.5" title="นับเฉพาะแท็บของเว็บนี้ที่ล็อกอินอยู่ในเบราว์เซอร์เครื่องนี้ ไม่ใช่จำนวนผู้ใช้ทั้งเว็บไซต์">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 mr-1 align-middle"></span><span id="vm-presence-text">ออนไลน์ในเบราว์เซอร์นี้ 1 แท็บ</span>
+        </div>
+      </nav>
+
       <!-- Category Hub -->
       <section id="hub-view">
        <div>
         <div class="bg-white/90 backdrop-blur-md rounded-3xl p-5 md:p-6 shadow-xl shadow-purple-950/5 border border-purple-100">
-        <h2 class="text-lg md:text-xl font-extrabold text-slate-800 mb-4 px-1">หมวดหมู่การเรียนรู้</h2>
+        <h2 class="text-lg md:text-xl font-extrabold text-slate-800 mb-4 px-1" data-i18n="k13">หมวดหมู่การเรียนรู้</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
 
           <button onclick="showLesson()" class="relative text-left rounded-3xl p-5 border-2 border-sky-600 bg-gradient-to-b from-white to-sky-50 shadow-lg shadow-sky-900/10 hover:-translate-y-1 hover:shadow-xl transition-all">
-            <span class="absolute top-3 right-3 bg-sky-700 text-white text-[11px] font-bold px-2.5 py-1 rounded-full">บทเรียนประโยค</span>
+            <span class="absolute top-3 right-3 bg-sky-700 text-white text-[12px] font-bold px-2.5 py-1 rounded-full" data-i18n="k14">บทเรียนประโยค</span>
             <div class="h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-2xl mb-4">💬</div>
-            <h3 class="text-lg font-extrabold text-slate-800 mb-1.5">ประโยคภาษาอังกฤษ</h3>
-            <p class="text-xs text-slate-500 leading-relaxed mb-4">ประโยคตัวอย่างภาษาอังกฤษพร้อมคำอ่านไทย คำแปล ปุ่มฟังเสียง และช่องค้นหา</p>
-            <span class="text-sm font-bold text-sky-700">เข้าสู่บทเรียน →</span>
+            <h3 class="text-lg font-extrabold text-slate-800 mb-1.5" data-i18n="k15">ประโยคภาษาอังกฤษ</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4" data-i18n="k16">ประโยคตัวอย่างภาษาอังกฤษพร้อมคำอ่านไทย คำแปล ปุ่มฟังเสียง และช่องค้นหา</p>
+            <span class="text-sm font-bold text-sky-700" data-i18n="k17">เข้าสู่บทเรียน →</span>
           </button>
 
           <button onclick="showGrammar()" class="relative text-left rounded-3xl p-5 border-2 border-purple-500 bg-gradient-to-b from-white to-purple-50 shadow-lg shadow-purple-900/10 hover:-translate-y-1 hover:shadow-xl transition-all">
-            <span class="absolute top-3 right-3 bg-purple-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full">12 บทเรียน</span>
+            <span class="absolute top-3 right-3 bg-purple-600 text-white text-[12px] font-bold px-2.5 py-1 rounded-full" data-i18n="k18">12 บทเรียน</span>
             <div class="h-14 rounded-2xl bg-purple-100 flex items-center justify-center text-2xl mb-4">✏️</div>
-            <h3 class="text-lg font-extrabold text-slate-800 mb-1.5">ไวยากรณ์ (Grammar)</h3>
-            <p class="text-xs text-slate-500 leading-relaxed mb-4">เรียนไวยากรณ์ตั้งแต่พื้นฐานถึง Tenses พร้อมสูตร ตัวอย่าง คำแปล และปุ่มฟังเสียง</p>
-            <span class="text-sm font-bold text-purple-700">เข้าสู่บทเรียนไวยากรณ์ →</span>
+            <h3 class="text-lg font-extrabold text-slate-800 mb-1.5" data-i18n="k19">ไวยากรณ์ (Grammar)</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4" data-i18n="k20">เรียนไวยากรณ์ตั้งแต่พื้นฐานถึง Tenses พร้อมสูตร ตัวอย่าง คำแปล และปุ่มฟังเสียง</p>
+            <span class="text-sm font-bold text-purple-700" data-i18n="k21">เข้าสู่บทเรียนไวยากรณ์ →</span>
           </button>
 
           <div class="relative rounded-3xl p-5 border border-purple-100 bg-purple-50/60 opacity-60 cursor-not-allowed select-none">
-            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[11px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
             <div class="h-14 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-4">📖</div>
-            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5">คำศัพท์ตามหมวดหมู่</h3>
-            <p class="text-xs text-slate-500 leading-relaxed mb-4">คลังคำศัพท์ A1-C2 แยกตามสถานการณ์ในชีวิตประจำวัน (กำลังพัฒนา...)</p>
+            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5" data-i18n="k22">คำศัพท์ตามหมวดหมู่</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4" data-i18n="k23">คลังคำศัพท์ A1-C2 แยกตามสถานการณ์ในชีวิตประจำวัน (กำลังพัฒนา...)</p>
             <span class="text-sm font-bold text-slate-400">Coming Soon</span>
           </div>
 
           <div class="relative rounded-3xl p-5 border border-purple-100 bg-purple-50/60 opacity-60 cursor-not-allowed select-none">
-            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[11px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
             <div class="h-14 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-4">🎧</div>
-            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5">ฝึกฟัง (Listening)</h3>
-            <p class="text-xs text-slate-500 leading-relaxed mb-4">ฝึกฟังบทสนทนาและเรื่องสั้นภาษาอังกฤษ (กำลังพัฒนา...)</p>
+            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5" data-i18n="k24">ฝึกฟัง (Listening)</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4" data-i18n="k25">ฝึกฟังบทสนทนาและเรื่องสั้นภาษาอังกฤษ (กำลังพัฒนา...)</p>
             <span class="text-sm font-bold text-slate-400">Coming Soon</span>
           </div>
 
           <div class="relative rounded-3xl p-5 border border-purple-100 bg-purple-50/60 opacity-60 cursor-not-allowed select-none">
-            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[11px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
             <div class="h-14 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-4">💬</div>
-            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5">สำนวน (Idioms)</h3>
-            <p class="text-xs text-slate-500 leading-relaxed mb-4">สำนวนภาษาอังกฤษที่ใช้บ่อยพร้อมความหมาย (กำลังพัฒนา...)</p>
+            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5" data-i18n="k26">สำนวน (Idioms)</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4" data-i18n="k27">สำนวนภาษาอังกฤษที่ใช้บ่อยพร้อมความหมาย (กำลังพัฒนา...)</p>
             <span class="text-sm font-bold text-slate-400">Coming Soon</span>
           </div>
 
           <div class="relative rounded-3xl p-5 border border-purple-100 bg-purple-50/60 opacity-60 cursor-not-allowed select-none">
-            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[11px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
             <div class="h-14 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-4">🗣️</div>
-            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5">บทสนทนา (Conversation)</h3>
-            <p class="text-xs text-slate-500 leading-relaxed mb-4">บทสนทนาในชีวิตประจำวัน ร้านอาหาร เดินทาง ช้อปปิ้ง (กำลังพัฒนา...)</p>
+            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5" data-i18n="k28">บทสนทนา (Conversation)</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4" data-i18n="k29">บทสนทนาในชีวิตประจำวัน ร้านอาหาร เดินทาง ช้อปปิ้ง (กำลังพัฒนา...)</p>
             <span class="text-sm font-bold text-slate-400">Coming Soon</span>
           </div>
 
           <div class="relative rounded-3xl p-5 border border-purple-100 bg-purple-50/60 opacity-60 cursor-not-allowed select-none">
-            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[11px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
             <div class="h-14 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-4">📰</div>
-            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5">ฝึกอ่าน (Reading)</h3>
-            <p class="text-xs text-slate-500 leading-relaxed mb-4">บทอ่านสั้นๆ พร้อมคำถามเช็กความเข้าใจ (กำลังพัฒนา...)</p>
+            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5" data-i18n="k30">ฝึกอ่าน (Reading)</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4" data-i18n="k31">บทอ่านสั้นๆ พร้อมคำถามเช็กความเข้าใจ (กำลังพัฒนา...)</p>
             <span class="text-sm font-bold text-slate-400">Coming Soon</span>
           </div>
 
           <div class="relative rounded-3xl p-5 border border-purple-100 bg-purple-50/60 opacity-60 cursor-not-allowed select-none">
-            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[11px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
             <div class="h-14 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-4">🔊</div>
-            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5">การออกเสียง (Pronunciation)</h3>
-            <p class="text-xs text-slate-500 leading-relaxed mb-4">ฝึกออกเสียงและสำเนียงให้ชัดเจน (กำลังพัฒนา...)</p>
+            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5" data-i18n="k32">การออกเสียง (Pronunciation)</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4" data-i18n="k33">ฝึกออกเสียงและสำเนียงให้ชัดเจน (กำลังพัฒนา...)</p>
             <span class="text-sm font-bold text-slate-400">Coming Soon</span>
           </div>
 
           <div class="relative rounded-3xl p-5 border border-purple-100 bg-purple-50/60 opacity-60 cursor-not-allowed select-none">
-            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[11px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+            <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
             <div class="h-14 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-4">🏃</div>
-            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5">วลีกริยา (Phrasal Verbs)</h3>
-            <p class="text-xs text-slate-500 leading-relaxed mb-4">รวม Phrasal Verbs ที่ใช้บ่อยพร้อมตัวอย่าง (กำลังพัฒนา...)</p>
+            <h3 class="text-lg font-extrabold text-slate-600 mb-1.5" data-i18n="k34">วลีกริยา (Phrasal Verbs)</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-4" data-i18n="k35">รวม Phrasal Verbs ที่ใช้บ่อยพร้อมตัวอย่าง (กำลังพัฒนา...)</p>
             <span class="text-sm font-bold text-slate-400">Coming Soon</span>
           </div>
 
@@ -510,6 +572,118 @@
       </section>
 
       <!-- Grammar View -->
+      <!-- ============ Page: Games (add-on) ============ -->
+      <section id="page-games" class="vm-page hidden w-full max-w-5xl mx-auto">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-4 sm:p-6 shadow-xl shadow-purple-950/5 border border-purple-100">
+          <div class="flex items-center justify-between gap-2 mb-4">
+            <button type="button" class="vm-back" onclick="vmGo('home')" data-i18n="k36">← กลับหน้าหลัก</button>
+            <h2 class="vm-title text-xl sm:text-2xl font-extrabold gradient-text" data-i18n="k37">🎮 เล่นเกม</h2>
+          </div>
+          <div id="games-menu">
+            <p class="text-xs sm:text-sm text-slate-500 mb-4" data-i18n="k38">เล่นสนุกพร้อมฝึกภาษาอังกฤษ สะสมคะแนนให้สูงที่สุด!</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              <div class="relative rounded-3xl p-4 sm:p-5 border-2 border-pink-400 bg-gradient-to-b from-white to-pink-50 shadow-lg shadow-pink-900/10">
+                <span class="absolute top-3 right-3 bg-pink-600 text-white text-[12px] font-bold px-2.5 py-1 rounded-full" data-i18n="k39">เล่นได้เลย</span>
+                <div class="h-12 rounded-2xl bg-pink-100 flex items-center justify-center text-2xl mb-3">🧠</div>
+                <h3 class="text-base sm:text-lg font-extrabold text-slate-800">Vocabulary Quiz</h3>
+                <p class="text-xs text-slate-500 leading-relaxed mt-1 mb-3" data-i18n="k40">ทายความหมายคำศัพท์ 10 ข้อ ตอบถูกติดกันได้คะแนนโบนัส ฟังเสียงคำได้</p>
+                <div id="quiz-best" class="text-xs font-bold text-amber-600 mb-3">🏆 คะแนนสูงสุด: 0</div>
+                <button type="button" onclick="vmStartQuiz()" class="w-full py-2.5 rounded-2xl gradient-btn text-white text-sm font-bold shadow-md active:scale-95 transition" data-i18n="k42">▶ เริ่มเกม</button>
+              </div>
+              <div class="relative rounded-3xl p-4 sm:p-5 border border-purple-100 bg-purple-50/60 opacity-60 select-none">
+                <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+                <div class="h-12 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-3">✏️</div>
+                <h3 class="text-base sm:text-lg font-extrabold text-slate-600">Grammar Challenge</h3>
+                <p class="text-xs text-slate-500 leading-relaxed mt-1 mb-3" data-i18n="k43">เลือกคำตอบที่ถูกต้องตามหลักไวยากรณ์ จับเวลาท้าทายตัวเอง</p>
+                <div class="w-full py-2.5 rounded-2xl bg-slate-200 text-slate-400 text-sm font-bold text-center cursor-not-allowed">Coming Soon</div>
+              </div>
+              <div class="relative rounded-3xl p-4 sm:p-5 border border-purple-100 bg-purple-50/60 opacity-60 select-none">
+                <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+                <div class="h-12 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-3">🧩</div>
+                <h3 class="text-base sm:text-lg font-extrabold text-slate-600">Word Matching</h3>
+                <p class="text-xs text-slate-500 leading-relaxed mt-1 mb-3" data-i18n="k44">จับคู่คำศัพท์ภาษาอังกฤษกับความหมายภาษาไทยให้ถูกต้อง</p>
+                <div class="w-full py-2.5 rounded-2xl bg-slate-200 text-slate-400 text-sm font-bold text-center cursor-not-allowed">Coming Soon</div>
+              </div>
+              <div class="relative rounded-3xl p-4 sm:p-5 border border-purple-100 bg-purple-50/60 opacity-60 select-none">
+                <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+                <div class="h-12 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-3">🔤</div>
+                <h3 class="text-base sm:text-lg font-extrabold text-slate-600">Sentence Puzzle</h3>
+                <p class="text-xs text-slate-500 leading-relaxed mt-1 mb-3" data-i18n="k45">เรียงคำให้เป็นประโยคภาษาอังกฤษที่ถูกต้อง</p>
+                <div class="w-full py-2.5 rounded-2xl bg-slate-200 text-slate-400 text-sm font-bold text-center cursor-not-allowed">Coming Soon</div>
+              </div>
+              <div class="relative rounded-3xl p-4 sm:p-5 border border-purple-100 bg-purple-50/60 opacity-60 select-none">
+                <span class="absolute top-3 right-3 bg-slate-300 text-slate-600 text-[12px] font-bold px-2.5 py-1 rounded-full">Coming Soon</span>
+                <div class="h-12 rounded-2xl bg-slate-200 flex items-center justify-center text-2xl mb-3">🎧</div>
+                <h3 class="text-base sm:text-lg font-extrabold text-slate-600">Listening Challenge</h3>
+                <p class="text-xs text-slate-500 leading-relaxed mt-1 mb-3" data-i18n="k46">ฟังเสียงแล้วเลือกคำหรือประโยคที่ได้ยินให้ถูกต้อง</p>
+                <div class="w-full py-2.5 rounded-2xl bg-slate-200 text-slate-400 text-sm font-bold text-center cursor-not-allowed">Coming Soon</div>
+              </div>
+            </div>
+          </div>
+          <div id="game-play" class="hidden"></div>
+        </div>
+      </section>
+
+      <!-- ============ Page: Community (add-on) ============ -->
+      <section id="page-community" class="vm-page hidden w-full max-w-3xl mx-auto">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-4 sm:p-6 shadow-xl shadow-purple-950/5 border border-purple-100">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <button type="button" class="vm-back" onclick="vmGo('home')">← กลับหน้าหลัก</button>
+            <h2 class="vm-title text-xl sm:text-2xl font-extrabold gradient-text">💬 ลงความคิดเห็น</h2>
+          </div>
+          <p class="text-[12px] sm:text-xs text-slate-500 mb-4 rounded-xl bg-purple-50/70 border border-purple-100 px-3 py-2">ℹ️ ความคิดเห็นถูกเก็บไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น ผู้ใช้เครื่องอื่นจะมองไม่เห็น และอาจหายหากล้างข้อมูลเว็บไซต์ (ดูรายละเอียดในหน้านโยบาย)</p>
+
+          <div class="rounded-2xl border border-purple-100 bg-white/70 p-4 mb-4 flex gap-4 items-center">
+            <div class="text-center shrink-0">
+              <div id="cm-avg" class="text-4xl font-extrabold gradient-text leading-none">–</div>
+              <div id="cm-avg-stars" class="text-amber-500 tracking-wider text-sm mt-1">☆☆☆☆☆</div>
+              <div id="cm-total" class="text-[12px] text-slate-500 mt-0.5">0 รีวิว</div>
+            </div>
+            <div id="cm-bars" class="flex-1 space-y-1"></div>
+          </div>
+
+          <form onsubmit="vmSubmitComment(event)" class="rounded-2xl border border-purple-100 bg-white/70 p-4 mb-4" novalidate>
+            <div class="text-sm font-extrabold text-slate-700 mb-2">✍️ เขียนความคิดเห็น</div>
+            <div class="flex items-center gap-1 flex-wrap mb-1" id="cm-stars" role="radiogroup" aria-label="ให้คะแนนดาว">
+              <button type="button" class="vm-star" data-v="1" role="radio" aria-label="1 ดาว">★</button>
+              <button type="button" class="vm-star" data-v="2" role="radio" aria-label="2 ดาว">★</button>
+              <button type="button" class="vm-star" data-v="3" role="radio" aria-label="3 ดาว">★</button>
+              <button type="button" class="vm-star" data-v="4" role="radio" aria-label="4 ดาว">★</button>
+              <button type="button" class="vm-star" data-v="5" role="radio" aria-label="5 ดาว">★</button>
+              <span id="cm-rating-label" class="text-xs text-slate-500 ml-1">แตะดาวเพื่อให้คะแนน</span>
+            </div>
+            <label class="block text-xs font-semibold text-slate-500 mt-2 mb-1" for="cm-name">ชื่อที่แสดง (ไม่ควรใช้อีเมล)</label>
+            <input id="cm-name" class="vm-input" type="text" maxlength="30" autocomplete="off" placeholder="เช่น ชื่อเล่นของคุณ">
+            <label class="block text-xs font-semibold text-slate-500 mt-3 mb-1" for="cm-text">ความคิดเห็น</label>
+            <textarea id="cm-text" class="vm-input" rows="4" maxlength="300" placeholder="เล่าให้เราฟังหน่อยว่าคุณคิดยังไงกับเว็บนี้..." style="resize:vertical"></textarea>
+            <div class="flex items-center justify-between mt-1"><span id="cm-chars" class="text-[12px] text-slate-400">0/300</span></div>
+            <div id="cm-msg" class="hidden" role="status" aria-live="polite"></div>
+            <button type="submit" class="w-full mt-3 py-3 rounded-2xl gradient-btn text-white font-bold shadow-lg shadow-purple-500/20 active:scale-95 transition">ส่งความคิดเห็น</button>
+          </form>
+
+          <div class="text-sm font-extrabold text-slate-700 mb-2">รายการความคิดเห็น</div>
+          <div id="cm-list" class="space-y-3"></div>
+          <button type="button" id="cm-more" class="hidden w-full mt-3 py-2.5 rounded-2xl bg-purple-50 text-purple-700 text-sm font-bold hover:bg-purple-100">ดูเพิ่มเติม</button>
+        </div>
+      </section>
+
+      <!-- ============ Page: Policies (add-on) ============ -->
+      <section id="page-policy" class="vm-page hidden w-full max-w-3xl mx-auto">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-4 sm:p-6 shadow-xl shadow-purple-950/5 border border-purple-100">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <button type="button" class="vm-back" onclick="vmGo('home')" data-i18n="k47">← กลับหน้าหลัก</button>
+            <h2 class="vm-title text-xl sm:text-2xl font-extrabold gradient-text" data-i18n="k48">📜 นโยบาย</h2>
+          </div>
+          <p class="text-[12px] sm:text-xs text-slate-500 mb-4" data-i18n="k49">อัปเดตล่าสุด: 12 พฤศจิกายน 2569 · แตะหัวข้อเพื่อเปิดอ่าน</p>
+      <details class="vm-pol" open><summary><span>🌐</span><span data-i18n="k50">1. นโยบายการใช้งานเว็บไซต์</span></summary><div class="body"><ul><li data-i18n="k51">VocabMaster เป็นเว็บไซต์ช่วยเรียนภาษาอังกฤษ ใช้งานได้ฟรีเพื่อการเรียนรู้ส่วนบุคคล</li><li data-i18n="k52">ห้ามใช้เว็บไซต์ในทางที่ผิดกฎหมาย หรือในลักษณะที่รบกวนการทำงานของเว็บไซต์และผู้อื่น</li><li data-i18n="k53">เนื้อหาบทเรียนมีไว้เพื่อการศึกษา ไม่อนุญาตให้นำไปขายต่อโดยไม่ได้รับอนุญาต</li><li data-i18n="k54">ผู้ดูแลอาจปรับปรุงหรือเปลี่ยนแปลงเว็บไซต์ได้โดยไม่ต้องแจ้งล่วงหน้า</li></ul></div></details>
+      <details class="vm-pol"><summary><span>🔒</span><span data-i18n="k55">2. นโยบายความเป็นส่วนตัว</span></summary><div class="body"><ul><li data-i18n="k56">ข้อมูลบัญชี (ชื่อ อีเมล รหัสผ่าน) ผลการเรียน และคะแนนเกม ถูกเก็บไว้ในเบราว์เซอร์ของคุณเอง ไม่ได้ส่งไปเก็บที่เซิร์ฟเวอร์ของเว็บไซต์</li><li data-i18n="k57">รหัสผ่านถูกเก็บในเบราว์เซอร์แบบไม่เข้ารหัส จึงไม่ควรใช้รหัสผ่านเดียวกับบริการสำคัญ เช่น อีเมลหรือบัญชีธนาคาร</li><li data-i18n="k58">ไม่ควรใช้เครื่องสาธารณะหรือเครื่องที่ใช้ร่วมกันโดยไม่ออกจากระบบ</li><li data-i18n="k59">เว็บไซต์โหลดฟอนต์และไลบรารีตกแต่งจากผู้ให้บริการภายนอก (เช่น Google Fonts) ซึ่งตามปกติอาจเห็นที่อยู่ IP ของผู้เข้าชม</li></ul></div></details>
+      <details class="vm-pol"><summary><span>👤</span><span data-i18n="k60">3. ข้อกำหนดสมาชิก</span></summary><div class="body"><ul><li data-i18n="k61">สมาชิกรับผิดชอบการเก็บรักษารหัสผ่านและการใช้งานบัญชีบนอุปกรณ์ของตนเอง</li><li data-i18n="k62">1 อีเมลสมัครได้ 1 บัญชี</li><li data-i18n="k63">ผู้ดูแลสามารถปรับปรุงข้อกำหนดได้ตามความเหมาะสม</li></ul></div></details>
+      <details class="vm-pol"><summary><span>💾</span><span data-i18n="k64">4. การจัดเก็บข้อมูล LocalStorage</span></summary><div class="body"><ul><li data-i18n="k65">เว็บไซต์ใช้ LocalStorage ของเบราว์เซอร์เก็บบัญชี ความคืบหน้าการเรียน และคะแนนเกม</li><li data-i18n="k66">ข้อมูลจึงยังอยู่เมื่อรีเฟรชหน้าหรือปิดแล้วเปิดเว็บใหม่ในเบราว์เซอร์เดิม</li><li data-i18n="k67">ไม่มีการเชื่อมต่อฐานข้อมูลกลางหรือ API ภายนอกสำหรับเก็บข้อมูลเหล่านี้</li></ul></div></details>
+      <details class="vm-pol"><summary><span>⚠️</span><span data-i18n="k68">5. ข้อจำกัดของการจัดเก็บข้อมูล</span></summary><div class="body"><ul><li data-i18n="k69">ข้อมูลแยกเก็บตามเบราว์เซอร์และอุปกรณ์ ไม่แชร์ข้ามเครื่อง ผู้ใช้เครื่องอื่นจะไม่เห็นข้อมูลของคุณ</li><li data-i18n="k70">ข้อมูลอาจสูญหายหากล้างข้อมูลเว็บไซต์ ใช้โหมดส่วนตัว หรือเปลี่ยนอุปกรณ์ และไม่มีระบบสำรองข้อมูล</li><li data-i18n="k71">ตัวเลข “ออนไลน์” นับเฉพาะแท็บของเว็บนี้ที่เปิดอยู่ในเบราว์เซอร์เครื่องเดียวกัน ไม่ใช่จำนวนผู้ใช้ทั้งเว็บไซต์</li></ul></div></details>
+      <details class="vm-pol"><summary><span>📮</span><span data-i18n="k72">6. ช่องทางติดต่อผู้ดูแลเว็บไซต์</span></summary><div class="body"><ul><li><span data-i18n="k73">พบข้อผิดพลาด มีข้อเสนอแนะ หรือต้องการแจ้งปัญหา ติดต่อได้ที่</span> <a href="https://chachaphon15y.github.io/3092011" target="_blank" rel="noopener noreferrer" class="text-purple-700 font-bold underline">chachaphon15y.github.io/3092011</a></li></ul></div></details>
+        </div>
+      </section>
+
       <section id="grammar-view" class="hidden w-full max-w-6xl mx-auto">
         <div class="bg-white/90 backdrop-blur-md rounded-3xl p-5 md:p-6 shadow-xl shadow-purple-950/5 border border-purple-100 mb-6">
           <div class="flex items-center justify-between">
@@ -717,6 +891,35 @@
       } catch (e) {}
     }
 
+    // ---- Language (Thai / English) for the login & sign-up screens ----
+    const I18N = {"th": {"login_title": "เข้าสู่ระบบ VocabMaster", "subtitle": "เรียนรู้ภาษาอังกฤษได้ทุกที่ ทุกเวลา", "email": "อีเมล (Email)", "password": "รหัสผ่าน (Password)", "login_btn": "เข้าสู่ระบบ", "no_account": "ยังไม่มีบัญชี?", "signup_link": "สมัครสมาชิก", "signup_title": "สมัครสมาชิก", "username": "ชื่อผู้ใช้ (Username)", "name_ph": "ชื่อของคุณ", "password_rule": "รหัสผ่าน (อย่างน้อย 8 ตัว มีทั้งตัวอักษรและตัวเลข)", "confirm": "ยืนยันรหัสผ่าน (Confirm Password)", "register_btn": "ลงทะเบียน", "have_account": "มีบัญชีอยู่แล้ว?", "login_link": "เข้าสู่ระบบ", "toggle_pw": "เปิด/ปิดดูรหัสผ่าน", "err_pw_rule": "❌ รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร และต้องประกอบด้วยทั้งตัวอักษรและตัวเลข", "err_pw_match": "❌ รหัสผ่านและรหัสผ่านยืนยันไม่ตรงกัน กรุณากรอกใหม่อีกครั้ง", "err_no_user": "❌ ไม่พบบัญชีผู้ใช้งานนี้ในระบบ กรุณาตรวจสอบอีเมลอีกครั้ง", "err_bad_pw": "❌ รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง", "reg_title": "กำลังลงทะเบียน...", "reg_status": "กำลังบันทึกข้อมูลความปลอดภัยบัญชีของคุณ", "reg_ok": "🎉 สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ", "in_title": "กำลังเข้าสู่ระบบ...", "in_status": "กำลังยืนยันตัวตนกับระบบความปลอดภัย"}, "en": {"login_title": "Log in to VocabMaster", "subtitle": "Learn English anywhere, anytime", "email": "Email", "password": "Password", "login_btn": "Log in", "no_account": "Don't have an account?", "signup_link": "Sign up", "signup_title": "Sign up", "username": "Username", "name_ph": "Your name", "password_rule": "Password (at least 8 characters, letters and numbers)", "confirm": "Confirm password", "register_btn": "Register", "have_account": "Already have an account?", "login_link": "Log in", "toggle_pw": "Show / hide password", "err_pw_rule": "❌ Password must be at least 8 characters and include both letters and numbers", "err_pw_match": "❌ Passwords do not match. Please try again", "err_no_user": "❌ Account not found. Please check your email", "err_bad_pw": "❌ Incorrect password. Please try again", "reg_title": "Registering...", "reg_status": "Saving your account security details", "reg_ok": "🎉 Sign-up successful! Please log in", "in_title": "Logging in...", "in_status": "Verifying your identity"}};
+    Object.assign(I18N.th, {"k1": "สวัสดีผู้ใช้งาน", "k2": "ออกจากระบบ", "k3": "คลังเรียนรู้ภาษาอังกฤษ", "k4": "เลือกหมวดหมู่ที่ต้องการเรียนรู้ได้เลย", "k5": "💡 เรียนทีละนิด ฝึกบ่อยๆ แล้วคุณจะเก่งขึ้นได้อย่างแน่นอน", "k6": "💡 ฟังเสียงแล้วพูดตามทุกประโยค", "k7": "📅 ท่องคำศัพท์วันละ 10 คำ", "k8": "✅ ทำแบบฝึกหัดท้ายบทให้ได้เกิน 70%", "k9": "หน้าหลัก", "k10": "เล่นเกม", "k11": "นโยบาย", "k12": "ออนไลน์ในเบราว์เซอร์นี้ 1 แท็บ", "k13": "หมวดหมู่การเรียนรู้", "k14": "บทเรียนประโยค", "k15": "ประโยคภาษาอังกฤษ", "k16": "ประโยคตัวอย่างภาษาอังกฤษพร้อมคำอ่านไทย คำแปล ปุ่มฟังเสียง และช่องค้นหา", "k17": "เข้าสู่บทเรียน →", "k18": "12 บทเรียน", "k19": "ไวยากรณ์ (Grammar)", "k20": "เรียนไวยากรณ์ตั้งแต่พื้นฐานถึง Tenses พร้อมสูตร ตัวอย่าง คำแปล และปุ่มฟังเสียง", "k21": "เข้าสู่บทเรียนไวยากรณ์ →", "k22": "คำศัพท์ตามหมวดหมู่", "k23": "คลังคำศัพท์ A1-C2 แยกตามสถานการณ์ในชีวิตประจำวัน (กำลังพัฒนา...)", "k24": "ฝึกฟัง (Listening)", "k25": "ฝึกฟังบทสนทนาและเรื่องสั้นภาษาอังกฤษ (กำลังพัฒนา...)", "k26": "สำนวน (Idioms)", "k27": "สำนวนภาษาอังกฤษที่ใช้บ่อยพร้อมความหมาย (กำลังพัฒนา...)", "k28": "บทสนทนา (Conversation)", "k29": "บทสนทนาในชีวิตประจำวัน ร้านอาหาร เดินทาง ช้อปปิ้ง (กำลังพัฒนา...)", "k30": "ฝึกอ่าน (Reading)", "k31": "บทอ่านสั้นๆ พร้อมคำถามเช็กความเข้าใจ (กำลังพัฒนา...)", "k32": "การออกเสียง (Pronunciation)", "k33": "ฝึกออกเสียงและสำเนียงให้ชัดเจน (กำลังพัฒนา...)", "k34": "วลีกริยา (Phrasal Verbs)", "k35": "รวม Phrasal Verbs ที่ใช้บ่อยพร้อมตัวอย่าง (กำลังพัฒนา...)", "k36": "← กลับหน้าหลัก", "k37": "🎮 เล่นเกม", "k38": "เล่นสนุกพร้อมฝึกภาษาอังกฤษ สะสมคะแนนให้สูงที่สุด!", "k39": "เล่นได้เลย", "k40": "ทายความหมายคำศัพท์ 10 ข้อ ตอบถูกติดกันได้คะแนนโบนัส ฟังเสียงคำได้", "k41": "🏆 คะแนนสูงสุด: 0", "k42": "▶ เริ่มเกม", "k43": "เลือกคำตอบที่ถูกต้องตามหลักไวยากรณ์ จับเวลาท้าทายตัวเอง", "k44": "จับคู่คำศัพท์ภาษาอังกฤษกับความหมายภาษาไทยให้ถูกต้อง", "k45": "เรียงคำให้เป็นประโยคภาษาอังกฤษที่ถูกต้อง", "k46": "ฟังเสียงแล้วเลือกคำหรือประโยคที่ได้ยินให้ถูกต้อง", "k47": "← กลับหน้าหลัก", "k48": "📜 นโยบาย", "k49": "อัปเดตล่าสุด: 12 พฤศจิกายน 2569 · แตะหัวข้อเพื่อเปิดอ่าน", "k50": "1. นโยบายการใช้งานเว็บไซต์", "k51": "VocabMaster เป็นเว็บไซต์ช่วยเรียนภาษาอังกฤษ ใช้งานได้ฟรีเพื่อการเรียนรู้ส่วนบุคคล", "k52": "ห้ามใช้เว็บไซต์ในทางที่ผิดกฎหมาย หรือในลักษณะที่รบกวนการทำงานของเว็บไซต์และผู้อื่น", "k53": "เนื้อหาบทเรียนมีไว้เพื่อการศึกษา ไม่อนุญาตให้นำไปขายต่อโดยไม่ได้รับอนุญาต", "k54": "ผู้ดูแลอาจปรับปรุงหรือเปลี่ยนแปลงเว็บไซต์ได้โดยไม่ต้องแจ้งล่วงหน้า", "k55": "2. นโยบายความเป็นส่วนตัว", "k56": "ข้อมูลบัญชี (ชื่อ อีเมล รหัสผ่าน) ผลการเรียน และคะแนนเกม ถูกเก็บไว้ในเบราว์เซอร์ของคุณเอง ไม่ได้ส่งไปเก็บที่เซิร์ฟเวอร์ของเว็บไซต์", "k57": "รหัสผ่านถูกเก็บในเบราว์เซอร์แบบไม่เข้ารหัส จึงไม่ควรใช้รหัสผ่านเดียวกับบริการสำคัญ เช่น อีเมลหรือบัญชีธนาคาร", "k58": "ไม่ควรใช้เครื่องสาธารณะหรือเครื่องที่ใช้ร่วมกันโดยไม่ออกจากระบบ", "k59": "เว็บไซต์โหลดฟอนต์และไลบรารีตกแต่งจากผู้ให้บริการภายนอก (เช่น Google Fonts) ซึ่งตามปกติอาจเห็นที่อยู่ IP ของผู้เข้าชม", "k60": "3. ข้อกำหนดสมาชิก", "k61": "สมาชิกรับผิดชอบการเก็บรักษารหัสผ่านและการใช้งานบัญชีบนอุปกรณ์ของตนเอง", "k62": "1 อีเมลสมัครได้ 1 บัญชี", "k63": "ผู้ดูแลสามารถปรับปรุงข้อกำหนดได้ตามความเหมาะสม", "k64": "4. การจัดเก็บข้อมูล LocalStorage", "k65": "เว็บไซต์ใช้ LocalStorage ของเบราว์เซอร์เก็บบัญชี ความคืบหน้าการเรียน และคะแนนเกม", "k66": "ข้อมูลจึงยังอยู่เมื่อรีเฟรชหน้าหรือปิดแล้วเปิดเว็บใหม่ในเบราว์เซอร์เดิม", "k67": "ไม่มีการเชื่อมต่อฐานข้อมูลกลางหรือ API ภายนอกสำหรับเก็บข้อมูลเหล่านี้", "k68": "5. ข้อจำกัดของการจัดเก็บข้อมูล", "k69": "ข้อมูลแยกเก็บตามเบราว์เซอร์และอุปกรณ์ ไม่แชร์ข้ามเครื่อง ผู้ใช้เครื่องอื่นจะไม่เห็นข้อมูลของคุณ", "k70": "ข้อมูลอาจสูญหายหากล้างข้อมูลเว็บไซต์ ใช้โหมดส่วนตัว หรือเปลี่ยนอุปกรณ์ และไม่มีระบบสำรองข้อมูล", "k71": "ตัวเลข “ออนไลน์” นับเฉพาะแท็บของเว็บนี้ที่เปิดอยู่ในเบราว์เซอร์เครื่องเดียวกัน ไม่ใช่จำนวนผู้ใช้ทั้งเว็บไซต์", "k72": "6. ช่องทางติดต่อผู้ดูแลเว็บไซต์", "k73": "พบข้อผิดพลาด มีข้อเสนอแนะ หรือต้องการแจ้งปัญหา ติดต่อได้ที่"});
+    Object.assign(I18N.en, {"k1": "Hello, user", "k2": "Log out", "k3": "English Learning Hub", "k4": "Choose a category you want to learn", "k5": "💡 Learn a little at a time, practise often, and you will definitely improve", "k6": "💡 Listen and repeat every sentence", "k7": "📅 Learn 10 new words a day", "k8": "✅ Score over 70% on each lesson quiz", "k9": "Home", "k10": "Games", "k11": "Policy", "k12": "Online in this browser: 1 tab", "k13": "Learning categories", "k14": "Sentence lessons", "k15": "English Sentences", "k16": "English example sentences with Thai pronunciation, translations, audio buttons and search", "k17": "Start learning →", "k18": "12 lessons", "k19": "Grammar", "k20": "Learn grammar from the basics to Tenses, with formulas, examples, translations and audio buttons", "k21": "Start grammar lessons →", "k22": "Vocabulary by Topic", "k23": "A1–C2 vocabulary grouped by everyday situations (in development...)", "k24": "Listening", "k25": "Practise listening to English conversations and short stories (in development...)", "k26": "Idioms", "k27": "Common English idioms with their meanings (in development...)", "k28": "Conversation", "k29": "Everyday conversations: restaurants, travel, shopping (in development...)", "k30": "Reading", "k31": "Short reading passages with comprehension questions (in development...)", "k32": "Pronunciation", "k33": "Practise clear pronunciation and accent (in development...)", "k34": "Phrasal Verbs", "k35": "Common phrasal verbs with examples (in development...)", "k36": "← Back to home", "k37": "🎮 Games", "k38": "Have fun practising English and collect the highest score!", "k39": "Play now", "k40": "Guess the meaning of 10 words. Correct streaks earn bonus points. You can listen to each word.", "k41": "🏆 High score: 0", "k42": "▶ Start game", "k43": "Choose the correct answer by grammar rules and challenge yourself against the clock", "k44": "Match English words with their Thai meanings", "k45": "Arrange the words into a correct English sentence", "k46": "Listen and choose the word or sentence you hear", "k47": "← Back to home", "k48": "📜 Policy", "k49": "Last updated: 12 November 2026 · Tap a heading to read", "k50": "1. Website usage policy", "k51": "VocabMaster is an English learning website, free to use for personal study.", "k52": "Do not use the website illegally or in ways that disturb the site or other people.", "k53": "Lesson content is for education only and may not be resold without permission.", "k54": "The administrator may update or change the website without prior notice.", "k55": "2. Privacy policy", "k56": "Account data (name, email, password), learning progress and game scores are stored in your own browser and are not sent to the website's server.", "k57": "Passwords are stored in the browser without encryption, so do not reuse a password from important services such as email or banking.", "k58": "Do not use a public or shared device without logging out.", "k59": "The site loads fonts and decorative libraries from external providers (such as Google Fonts), which may normally see visitors' IP addresses.", "k60": "3. Member terms", "k61": "Members are responsible for keeping their password safe and for the use of their account on their own devices.", "k62": "One email can register one account.", "k63": "The administrator may update these terms as appropriate.", "k64": "4. LocalStorage data", "k65": "The website uses the browser's LocalStorage to keep accounts, learning progress and game scores.", "k66": "The data therefore stays after refreshing or reopening the site in the same browser.", "k67": "No central database or external API is used to store this data.", "k68": "5. Data storage limits", "k69": "Data is stored per browser and device and is not shared between devices. Other users cannot see your data.", "k70": "Data may be lost if you clear site data, use private mode or change device, and there is no backup system.", "k71": "The \"online\" number counts only tabs of this site open in the same browser, not all users of the website.", "k72": "6. Contact the administrator", "k73": "To report a bug, make a suggestion or report a problem, contact:"});
+    I18N.th.hello = 'สวัสดี'; I18N.en.hello = 'Hello';
+    let LANG = 'th';
+    try { LANG = localStorage.getItem('vm_lang') === 'en' ? 'en' : 'th'; } catch (e) {}
+    function t(k) { return (I18N[LANG] && I18N[LANG][k]) || I18N.th[k] || k; }
+    function applyLang() {
+      document.documentElement.lang = LANG;
+      document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')); });
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.getAttribute('data-i18n-ph')); });
+      document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = t(el.getAttribute('data-i18n-title')); });
+      try { const u = JSON.parse(localStorage.getItem('active_user') || 'null'); const d = document.getElementById('user-display'); if (u && d) d.innerText = t('hello') + ', ' + u.name; } catch (e) {}
+      if (window.vmLangRefresh) window.vmLangRefresh();
+      const on = 'gradient-btn text-white shadow', off = 'text-slate-500 hover:text-purple-600';
+      [['th', 'lang-th'], ['en', 'lang-en'], ['th', 'lang-th2'], ['en', 'lang-en2']].forEach(([l, id]) => {
+        const b = document.getElementById(id); if (!b) return;
+        b.className = 'px-3.5 py-1.5 rounded-full text-sm font-bold transition ' + (LANG === l ? on : off);
+        b.setAttribute('aria-pressed', LANG === l ? 'true' : 'false');
+      });
+    }
+    function setLang(l) {
+      LANG = (l === 'en') ? 'en' : 'th';
+      try { localStorage.setItem('vm_lang', LANG); } catch (e) {}
+      ['login-error-msg', 'signup-error-msg'].forEach(id => { const e = document.getElementById(id); if (e) e.classList.add('hidden'); });
+      applyLang();
+    }
+
     function togglePassVisibility(fieldIds, btn) {
       let isVisible = false;
       fieldIds.forEach(id => {
@@ -805,14 +1008,14 @@
       const hasNumber = /[0-9]/.test(pass);
 
       if (pass.length < 8 || !hasLetter || !hasNumber) {
-        errorMsg.innerText = "❌ รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร และต้องประกอบด้วยทั้งตัวอักษรและตัวเลข";
+        errorMsg.innerText = t('err_pw_rule');
         errorMsg.classList.remove('hidden');
         wipePasswordFields();
         return;
       }
 
       if (pass !== passConfirm) {
-        errorMsg.innerText = "❌ รหัสผ่านและรหัสผ่านยืนยันไม่ตรงกัน กรุณากรอกใหม่อีกครั้ง";
+        errorMsg.innerText = t('err_pw_match');
         errorMsg.classList.remove('hidden');
         wipePasswordFields();
         return;
@@ -820,10 +1023,10 @@
 
       errorMsg.classList.add('hidden');
 
-      triggerProcessingModal("กำลังลงทะเบียน...", "กำลังบันทึกข้อมูลความปลอดภัยบัญชีของคุณ", "✨", () => {
+      triggerProcessingModal(t('reg_title'), t('reg_status'), "✨", () => {
         const userObj = { name, email, pass };
         localStorage.setItem(`user_${email}`, JSON.stringify(userObj));
-        alert("🎉 สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ");
+        alert(t('reg_ok'));
         toggleAuth('login');
       });
     }
@@ -841,7 +1044,7 @@
 
       const stored = localStorage.getItem(`user_${email}`);
       if (!stored) {
-        errorMsg.innerText = "❌ ไม่พบบัญชีผู้ใช้งานนี้ในระบบ กรุณาตรวจสอบอีเมลอีกครั้ง";
+        errorMsg.innerText = t('err_no_user');
         errorMsg.classList.remove('hidden');
         wipeLoginPass();
         return;
@@ -849,7 +1052,7 @@
 
       const userObj = JSON.parse(stored);
       if (userObj.pass !== pass) {
-        errorMsg.innerText = "❌ รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง";
+        errorMsg.innerText = t('err_bad_pw');
         errorMsg.classList.remove('hidden');
         wipeLoginPass();
         return;
@@ -858,7 +1061,7 @@
       errorMsg.classList.add('hidden');
 
       unlockSpeech();
-      triggerProcessingModal("กำลังเข้าสู่ระบบ...", "กำลังยืนยันตัวตนกับระบบความปลอดภัย", "🚀", () => {
+      triggerProcessingModal(t('in_title'), t('in_status'), "🚀", () => {
         localStorage.setItem('active_user', JSON.stringify(userObj));
         checkSession();
         speakText("Welcome to VocabMaster! Let's start learning English together.", 0.9);
@@ -869,7 +1072,7 @@
       const active = localStorage.getItem('active_user');
       if (active) {
         const user = JSON.parse(active);
-        document.getElementById('user-display').innerText = `สวัสดี, ${user.name}`;
+        document.getElementById('user-display').innerText = `${t('hello')}, ${user.name}`;
         document.getElementById('auth-view').classList.add('hidden');
         document.getElementById('main-view').classList.remove('hidden');
         showHub();
@@ -890,7 +1093,7 @@
         if (k === 'f') return `<div class="rounded-2xl gradient-btn text-white font-bold text-center py-3 px-4 text-sm md:text-base">${a}</div>`;
         if (k === 'n') return `<div class="rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 text-sm px-4 py-3">💡 ${a}</div>`;
         if (k === 't') return gTable(a, c);
-        if (k === 'e') return a.map(x => `<div class="flex items-center justify-between gap-3 rounded-2xl bg-purple-50/60 border border-purple-100 px-4 py-2.5"><div><div class="font-bold text-slate-800 text-sm">${x[0]}</div>${x[2] ? `<div class="text-[11px] text-purple-600 mt-0.5">คำอ่าน: ${x[2]}</div>` : ''}<div class="text-xs text-slate-500">${x[1]}</div></div><button data-t="${encodeURIComponent(x[0])}" onclick="speakText(decodeURIComponent(this.dataset.t))" class="shrink-0 w-9 h-9 rounded-full bg-white border border-purple-200 hover:bg-purple-100">🔊</button></div>`).join('');
+        if (k === 'e') return a.map(x => `<div class="flex items-center justify-between gap-3 rounded-2xl bg-purple-50/60 border border-purple-100 px-4 py-2.5"><div><div class="font-bold text-slate-800 text-sm">${x[0]}</div>${x[2] ? `<div class="text-[12px] text-purple-600 mt-0.5">คำอ่าน: ${x[2]}</div>` : ''}<div class="text-xs text-slate-500">${x[1]}</div></div><button data-t="${encodeURIComponent(x[0])}" onclick="speakText(decodeURIComponent(this.dataset.t))" class="shrink-0 w-9 h-9 rounded-full bg-white border border-purple-200 hover:bg-purple-100">🔊</button></div>`).join('');
         return '';
       }).join('');
     }
@@ -923,11 +1126,11 @@
       const el = document.getElementById('grammar-list');
       if (!items.length) { el.innerHTML = '<div class="col-span-full text-center text-slate-500 text-sm py-8 bg-white/80 rounded-2xl border border-purple-100">ไม่พบบทเรียนที่ตรงกับคำค้นหา</div>'; return; }
       el.innerHTML = items.map(([g, i]) => {
-        const done = d.done[g.n] ? '<span class="text-[11px] font-bold text-emerald-600">✓ เรียนจบแล้ว</span>' : '';
-        const best = d.best[g.n] !== undefined ? '<span class="text-[11px] text-slate-400">คะแนนสูงสุด ' + d.best[g.n] + '</span>' : '';
+        const done = d.done[g.n] ? '<span class="text-[12px] font-bold text-emerald-600">✓ เรียนจบแล้ว</span>' : '';
+        const best = d.best[g.n] !== undefined ? '<span class="text-[12px] text-slate-400">คะแนนสูงสุด ' + d.best[g.n] + '</span>' : '';
         return g.b.length
-          ? `<button onclick="openGrammarLesson(${i})" class="text-left rounded-2xl p-4 bg-white/90 border ${d.done[g.n] ? 'border-emerald-300' : 'border-purple-100'} hover:border-purple-400 hover:-translate-y-0.5 hover:shadow-lg transition-all"><div class="text-[11px] font-bold text-pink-500 tracking-wider">LESSON ${g.n}</div><div class="font-extrabold text-slate-800 mt-1">${g.en}</div><div class="text-xs text-slate-500">${g.th}</div><div class="flex items-center gap-2 mt-2">${done}${best}</div></button>`
-          : `<div class="rounded-2xl p-4 bg-purple-50/50 border border-purple-100 opacity-60 cursor-not-allowed"><div class="text-[11px] font-bold text-slate-400 tracking-wider">LESSON ${g.n}</div><div class="font-extrabold text-slate-600 mt-1">${g.en}</div><div class="text-xs text-slate-500">${g.th}</div><div class="text-[11px] font-bold text-slate-400 mt-2">เร็วๆ นี้</div></div>`;
+          ? `<button onclick="openGrammarLesson(${i})" class="text-left rounded-2xl p-4 bg-white/90 border ${d.done[g.n] ? 'border-emerald-300' : 'border-purple-100'} hover:border-purple-400 hover:-translate-y-0.5 hover:shadow-lg transition-all"><div class="text-[12px] font-bold text-pink-500 tracking-wider">LESSON ${g.n}</div><div class="font-extrabold text-slate-800 mt-1">${g.en}</div><div class="text-xs text-slate-500">${g.th}</div><div class="flex items-center gap-2 mt-2">${done}${best}</div></button>`
+          : `<div class="rounded-2xl p-4 bg-purple-50/50 border border-purple-100 opacity-60 cursor-not-allowed"><div class="text-[12px] font-bold text-slate-400 tracking-wider">LESSON ${g.n}</div><div class="font-extrabold text-slate-600 mt-1">${g.en}</div><div class="text-xs text-slate-500">${g.th}</div><div class="text-[12px] font-bold text-slate-400 mt-2">เร็วๆ นี้</div></div>`;
       }).join('');
     }
 
@@ -966,7 +1169,7 @@
       const sum = GRSUM[g.n] ? `<div class="rounded-2xl bg-emerald-50 border border-emerald-200 px-4 py-3"><div class="font-extrabold text-emerald-700 text-sm mb-1.5">📌 สรุปท้ายบท</div><ul class="list-disc pl-5 space-y-1 text-sm text-emerald-900">${GRSUM[g.n].map(x => '<li>' + x + '</li>').join('')}</ul></div>` : '';
       const quiz = GQUIZ[g.n] ? `<button onclick="gQuiz(${i})" class="gradient-btn text-white text-sm font-bold px-4 py-2 rounded-xl">📝 ทำแบบฝึกหัดท้ายบท (${GQUIZ[g.n].length} ข้อ)</button>` : '<span class="text-xs font-bold text-slate-400 px-2">📝 แบบฝึกหัดบทนี้ เร็วๆ นี้</span>';
       document.getElementById('grammar-lesson').innerHTML =
-        `<div><div class="text-[11px] font-bold text-pink-500 tracking-wider">LESSON ${g.n}</div><h3 class="text-xl md:text-2xl font-extrabold gradient-text">${g.en}</h3><div class="text-sm text-slate-500">${g.th}</div></div>` +
+        `<div><div class="text-[12px] font-bold text-pink-500 tracking-wider">LESSON ${g.n}</div><h3 class="text-xl md:text-2xl font-extrabold gradient-text">${g.en}</h3><div class="text-sm text-slate-500">${g.th}</div></div>` +
         gBlocks(g.b) + sum +
         `<div class="flex flex-wrap items-center gap-2 pt-2">${quiz}${gDoneBtn(i)}</div>` +
         `<div class="flex items-center justify-between pt-3 border-t border-purple-100"><button onclick="showGrammar()" class="px-3.5 py-2 rounded-xl bg-purple-50 text-purple-700 text-xs font-bold hover:bg-purple-100">← รายการบทเรียน</button>${next}</div>`;
@@ -983,7 +1186,7 @@
         (q[0] === 'm' ? q[2].map((o, j) => `<label class="flex items-center gap-2 text-sm text-slate-700 py-1 cursor-pointer"><input type="radio" name="gq${k}" value="${j}" class="accent-purple-600"> ${o}</label>`).join('')
           : `<input type="text" id="gq${k}" autocomplete="off" placeholder="พิมพ์คำตอบ..." class="w-full px-3 py-2 rounded-xl border border-purple-200 text-sm outline-none focus:border-pink-500">`) + '</div>').join('');
       document.getElementById('grammar-lesson').innerHTML =
-        `<div><div class="text-[11px] font-bold text-pink-500 tracking-wider">LESSON ${g.n} · แบบฝึกหัด</div><h3 class="text-xl font-extrabold gradient-text">${g.en}</h3><div class="text-xs text-slate-500">ตอบให้ครบทุกข้อ แล้วกดตรวจคำตอบ</div></div>` + body +
+        `<div><div class="text-[12px] font-bold text-pink-500 tracking-wider">LESSON ${g.n} · แบบฝึกหัด</div><h3 class="text-xl font-extrabold gradient-text">${g.en}</h3><div class="text-xs text-slate-500">ตอบให้ครบทุกข้อ แล้วกดตรวจคำตอบ</div></div>` + body +
         `<div class="flex items-center justify-between pt-3 border-t border-purple-100"><button onclick="openGrammarLesson(${i})" class="px-3.5 py-2 rounded-xl bg-purple-50 text-purple-700 text-xs font-bold">← กลับไปบทเรียน</button><button onclick="gSubmit(${i})" class="gradient-btn text-white text-sm font-bold px-5 py-2 rounded-xl">ตรวจคำตอบ</button></div>`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1013,7 +1216,7 @@
       if (pass) d.done[g.n] = true;
       gSave(d);
       document.getElementById('grammar-lesson').innerHTML =
-        `<div class="text-center py-2"><div class="text-[11px] font-bold text-pink-500 tracking-wider">LESSON ${g.n} · ผลแบบฝึกหัด</div><div class="text-4xl font-extrabold gradient-text mt-1">${score}/${total}</div><div class="text-sm font-bold ${pass ? 'text-emerald-600' : 'text-amber-600'}">${pct}% — ${pass ? 'ผ่านแล้ว! บันทึกว่าเรียนจบบทนี้' : 'ยังไม่ถึง 70% ลองทบทวนบทเรียนแล้วทำใหม่'}</div></div>` + rows +
+        `<div class="text-center py-2"><div class="text-[12px] font-bold text-pink-500 tracking-wider">LESSON ${g.n} · ผลแบบฝึกหัด</div><div class="text-4xl font-extrabold gradient-text mt-1">${score}/${total}</div><div class="text-sm font-bold ${pass ? 'text-emerald-600' : 'text-amber-600'}">${pct}% — ${pass ? 'ผ่านแล้ว! บันทึกว่าเรียนจบบทนี้' : 'ยังไม่ถึง 70% ลองทบทวนบทเรียนแล้วทำใหม่'}</div></div>` + rows +
         `<div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-purple-100"><button onclick="openGrammarLesson(${i})" class="px-3.5 py-2 rounded-xl bg-purple-50 text-purple-700 text-xs font-bold">← ทบทวนบทเรียน</button><button onclick="gQuiz(${i})" class="gradient-btn text-white text-sm font-bold px-5 py-2 rounded-xl">ทำใหม่</button></div>`;
       gProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1162,9 +1365,555 @@
     }, { passive: true });
 
     window.addEventListener('DOMContentLoaded', () => {
+      applyLang();
       buildDatabase();
       checkSession();
     });
+  </script>
+  <script>
+/* =====================================================================
+   VocabMaster – add-on: menu, games, community, policies, online counter
+   Add-only. Uses LocalStorage + BroadcastChannel only (no external service).
+   ===================================================================== */
+(function () {
+  'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var PAGES = ['games', 'community', 'policy'];
+  var ROUTES = ['home', 'games', 'policy', 'lesson', 'grammar'];
+  var currentPage = 'home';
+  var popping = false;
+  var INITIAL_HASH = (location.hash || '').replace('#', '');
+
+  /* ---------- safe storage helpers ---------- */
+  function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } }
+  function lsDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  function activeUser() {
+    try { var u = JSON.parse(lsGet('active_user') || 'null'); return (u && typeof u === 'object') ? u : null; }
+    catch (e) { return null; }
+  }
+  // Stability: a damaged login record would stop the whole site from loading. Remove it so the login page shows.
+  try { JSON.parse(lsGet('active_user') || 'null'); } catch (e) { lsDel('active_user'); }
+
+  /* =====================================================================
+     1) NAVIGATION (SPA, browser back button supported)
+     ===================================================================== */
+  function setActive(p) {
+    var tabs = document.querySelectorAll('#site-nav .vm-tab');
+    for (var i = 0; i < tabs.length; i++) {
+      var on = tabs[i].getAttribute('data-page') === p;
+      tabs[i].classList.toggle('active', on);
+      if (on) tabs[i].setAttribute('aria-current', 'page'); else tabs[i].removeAttribute('aria-current');
+    }
+  }
+  function setNav(visible) { var n = $('site-nav'); if (n) n.classList.toggle('hidden', !visible); document.body.classList.toggle('vm-full', !visible); }
+  function hidePages() {
+    for (var i = 0; i < PAGES.length; i++) { var el = $('page-' + PAGES[i]); if (el) el.classList.add('hidden'); }
+    stopGame();
+  }
+  function setHash(h, replace) {
+    if (popping || location.hash === '#' + h) return;
+    try { history[replace ? 'replaceState' : 'pushState']({ vm: h }, '', '#' + h); } catch (e) {}
+  }
+
+  var origHub = window.showHub, origLesson = window.showLesson, origGrammar = window.showGrammar;
+  window.showHub = function () {
+    hidePages();
+    origHub.apply(this, arguments);
+    currentPage = 'home'; setNav(true); setActive('home'); setHash('home', true);
+    presenceTick();
+  };
+  window.showLesson = function () {
+    hidePages(); currentPage = 'lesson'; setNav(false);
+    origLesson.apply(this, arguments); setHash('lesson', false);
+  };
+  window.showGrammar = function () {
+    hidePages(); currentPage = 'grammar'; setNav(false);
+    origGrammar.apply(this, arguments); setHash('grammar', false);
+  };
+
+  function showPage(p) {
+    var hide = ['hub-view', 'lesson-view', 'grammar-view', 'home-header'];
+    for (var i = 0; i < hide.length; i++) { var h = $(hide[i]); if (h) h.classList.add('hidden'); }
+    document.body.classList.remove('in-category');
+    hidePages();
+    var el = $('page-' + p);
+    el.classList.remove('hidden');
+    if (typeof popIn === 'function') popIn(el);
+    currentPage = p; setNav(false); setActive(p);
+    window.scrollTo({ top: 0 });
+    if (p === 'community') renderCommunity();
+    if (p === 'games') renderGamesHome();
+  }
+  function renderPage(p) {
+    if (p === 'home') window.showHub();
+    else if (p === 'lesson') window.showLesson();
+    else if (p === 'grammar') window.showGrammar();
+    else if (PAGES.indexOf(p) >= 0) showPage(p);
+    else window.showHub();
+  }
+  window.vmGo = function (p) {
+    if (ROUTES.indexOf(p) < 0) p = 'home';
+    if (p === currentPage) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; } // ignore repeated taps
+    if (!popping) { try { history.pushState({ vm: p }, '', '#' + p); } catch (e) {} }
+    renderPage(p);
+  };
+  window.addEventListener('popstate', function () {
+    if (!activeUser()) return;
+    var h = (location.hash || '#home').slice(1);
+    if (ROUTES.indexOf(h) < 0) h = 'home';
+    popping = true;
+    try { renderPage(h); } finally { popping = false; }
+  });
+
+  /* =====================================================================
+     2) ONLINE COUNTER (this browser only – BroadcastChannel between tabs)
+     ===================================================================== */
+  var ME = Math.random().toString(36).slice(2) + Date.now().toString(36);
+  var peers = {};
+  var chan = null, wasIn = false, presenceTimer = null, lastLabel = '';
+  try { if (typeof BroadcastChannel === 'function') chan = new BroadcastChannel('vocabmaster-presence-v1'); } catch (e) { chan = null; }
+  function send(t) { try { if (chan) chan.postMessage({ t: t, id: ME }); } catch (e) {} }
+  function renderPresence() {
+    var el = $('vm-presence-text'); if (!el) return;
+    var n = 0, now = Date.now();
+    for (var k in peers) { if (now - peers[k] < 75000) n++; else delete peers[k]; }
+    if (activeUser()) n += 1;
+    var label = (LANG === 'en') ? 'Online in this browser: ' + n + (n === 1 ? ' tab' : ' tabs') : 'ออนไลน์ในเบราว์เซอร์นี้ ' + n + ' แท็บ';
+    if (label !== lastLabel) { el.textContent = label; lastLabel = label; }
+  }
+  window.vmLangRefresh = function () {
+    lastLabel = ''; renderPresence();
+    var b = $('quiz-best'); if (b) b.textContent = (LANG === 'en' ? '🏆 High score: ' : '🏆 คะแนนสูงสุด: ') + bestScore();
+  };
+  function presenceTick() {
+    var inNow = !!activeUser();
+    if (inNow && !wasIn) send('hello');
+    else if (inNow) send('beat');
+    else if (!inNow && wasIn) send('bye');
+    wasIn = inNow;
+    renderPresence();
+  }
+  if (chan) {
+    chan.onmessage = function (e) {
+      var d = e && e.data;
+      if (!d || typeof d.id !== 'string' || d.id === ME) return;
+      if (d.t === 'bye') delete peers[d.id];
+      else { peers[d.id] = Date.now(); if (d.t === 'hello' && activeUser()) send('beat'); }
+      renderPresence();
+    };
+  }
+  window.addEventListener('pagehide', function () {
+    if (wasIn) send('bye');
+    if (presenceTimer) { clearInterval(presenceTimer); presenceTimer = null; }
+  });
+  window.addEventListener('pageshow', function () {
+    if (!presenceTimer) presenceTimer = setInterval(presenceTick, 5000);
+    presenceTick();
+  });
+  // Pause decorative animations while the tab is hidden (saves battery, avoids lag)
+  document.addEventListener('visibilitychange', function () {
+    document.body.classList.toggle('vm-paused', document.hidden);
+  });
+
+  /* =====================================================================
+     3) BAD-WORD FILTER + SPAM GUARD  (edit the lists below to add/remove words)
+     ===================================================================== */
+  // --- English words. Short words (<=3 letters) are matched strictly to avoid false positives.
+  var BAD_EN = [
+    'fuck', 'shit', 'bitch', 'bastard', 'asshole', 'dickhead', 'cunt', 'pussy', 'whore', 'slut',
+    'motherfucker', 'bullshit', 'nigger', 'nigga', 'faggot', 'retard', 'rape', 'porn', 'wanker', 'twat', 'ass', 'kys'
+  ];
+  // --- English threats / insults (regular expressions)
+  var BAD_EN_PHRASES = [
+    '(^|[^a-z])kill\\s*(you|yourself|ur\\s*self|u|urself)(?![a-z])',
+    '(^|[^a-z])(go|hope\\s+you)\\s+die(?![a-z])',
+    '(^|[^a-z])i\\s*(will|ll|am\\s+going\\s+to|m\\s+gonna|will\\s+gonna)\\s+(kill|hurt|find)\\s+(you|u)(?![a-z])',
+    '(^|[^a-z])shut\\s*(the\\s*)?(fuck\\s*)?up(?![a-z])'
+  ];
+  // --- Thai words (write WITHOUT tone marks ่ ้ ๊ ๋ and ์ ็ ). Matched even with spaces/symbols between letters.
+  var BAD_TH = [
+    'เหีย', 'สัส', 'เยด', 'ควย', 'หี', 'เงียน', 'สนตีน', 'ตอแหล', 'ระยำ', 'อีดอก', 'ชาติหมา',
+    'ไอสัตว', 'อีสัตว', 'ไอควาย', 'อีควาย', 'ปัญญาอ่อน', 'อีเลว', 'ไอเลว',
+    'ฆ่ามึง', 'ฆ่าแก', 'จะฆ่า', 'ไปตายซะ', 'ไปตายเถอะ', 'ตายซะ', 'เอามึงตาย'
+  ];
+  // --- Normal Thai words that contain a bad-word fragment (they are ignored by the filter)
+  var SAFE_TH = ['หีบ', 'สัสดี', 'เหี่ยว', 'เหี้ยม', 'เหียน', 'เหียด', 'ควยเ'];
+
+  var LEET = { a: '[a4@]', b: '[b8]', e: '[e3]', g: '[g9]', i: '[i1!|]', o: '[o0]', s: '[s5$]', t: '[t7+]', l: '[l1]' };
+  var enRegexes = (function () {
+    var list = [];
+    for (var w = 0; w < BAD_EN.length; w++) {
+      var word = BAD_EN[w], parts = [], allowSpace = word.length >= 4;
+      var sep = allowSpace ? '[^a-z0-9]{0,3}' : '[^a-z0-9\\s]{0,2}';
+      for (var i = 0; i < word.length; i++) {
+        var c = word.charAt(i), cls = LEET[c] || c;
+        // a masking symbol (f*ck, s**t) may replace a letter only in longer words
+        var mask = (allowSpace && i > 0 && i < word.length - 1) ? '|[*#@$%]' : '';
+        parts.push('(?:' + cls + '+' + mask + ')');
+      }
+      list.push(new RegExp('(^|[^a-z])' + parts.join(sep) + '(?:ing|ers?|ed|es|s|in|y)?(?![a-z])'));
+    }
+    for (var p = 0; p < BAD_EN_PHRASES.length; p++) list.push(new RegExp(BAD_EN_PHRASES[p]));
+    return list;
+  })();
+
+  function stripZeroWidth(t) { return t.replace(/[​-‏‪-‮⁠﻿­]/g, ''); }
+  function joinSingles(str) {
+    var t = str.split(/\s+/), out = [], run = '';
+    for (var k = 0; k < t.length; k++) {
+      if (t[k].length === 1) run += t[k];
+      else { if (run) { out.push(run); run = ''; } out.push(t[k]); }
+    }
+    if (run) out.push(run);
+    return out.join(' ');
+  }
+  function hasBadWord(text) {
+    var base = stripZeroWidth(String(text)).normalize('NFKC');
+    // English: lower-case, drop accents, look at the plain text and a "letters spread out" copy
+    var en = base.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    var i;
+    for (i = 0; i < enRegexes.length; i++) if (enRegexes[i].test(en)) return true;
+    // single letters separated by spaces: "a s s"
+    var joined = joinSingles(en);
+    if (joined !== en) for (i = 0; i < enRegexes.length; i++) if (enRegexes[i].test(joined)) return true;
+    // Thai: remove tone marks, ignore normal words, then ignore spaces and symbols between letters
+    var th = base.replace(/[็-์]/g, '');
+    for (i = 0; i < SAFE_TH.length; i++) th = th.split(SAFE_TH[i].replace(/[็-์]/g, '')).join(' ');
+    var thOnly = th.replace(/[^฀-๿]/g, '');
+    for (i = 0; i < BAD_TH.length; i++) if (thOnly.indexOf(BAD_TH[i].replace(/[็-์]/g, '')) !== -1) return true;
+    return false;
+  }
+  var URL_RE = /(https?:\/\/|www\.|[a-z0-9-]{2,}\.(com|net|org|xyz|info|biz|link)(\/|\b))/i;
+  function looksLikeSpam(text) {
+    if (/(.)\1{7,}/u.test(text)) return true;                         // aaaaaaaa
+    var words = text.toLowerCase().split(/\s+/).filter(Boolean);       // same word again and again
+    var count = {};
+    for (var i = 0; i < words.length; i++) { count[words[i]] = (count[words[i]] || 0) + 1; if (count[words[i]] >= 5 && words.length >= 5) return true; }
+    if (URL_RE.test(text)) return true;                                // links
+    if (/\d{9,}/.test(text.replace(/[\s-]/g, ''))) return true;        // long numbers (phone etc.)
+    return false;
+  }
+  function normKey(t) { return String(t).toLowerCase().replace(/[\s.,!?;:'"()\[\]{}\-_*~`^|\\\/<>@#$%&+=]+/g, ''); }
+
+  /* =====================================================================
+     4) COMMUNITY (LocalStorage only)
+     ===================================================================== */
+  var CKEY = 'vm_comments_v1', LAST_KEY = 'vm_last_post_v1';
+  var MAXLEN = 300, MINLEN = 5, COOLDOWN = 30000, DELETE_MS = 7 * 24 * 3600 * 1000, PAGE = 30, MAXSTORE = 500;
+  var selRating = 0, shown = PAGE, posting = false;
+
+  function validComment(c) {
+    return c && typeof c === 'object' && typeof c.id === 'string' && typeof c.name === 'string' && typeof c.text === 'string' &&
+      typeof c.uid === 'string' && typeof c.ts === 'number' && isFinite(c.ts) && c.rating >= 1 && c.rating <= 5 && Math.floor(c.rating) === c.rating;
+  }
+  function loadComments() {
+    var raw = lsGet(CKEY);
+    if (!raw) return [];
+    var arr;
+    try { arr = JSON.parse(raw); } catch (e) { arr = null; }
+    if (!Array.isArray(arr)) { lsSet(CKEY + '_damaged', raw); lsSet(CKEY, '[]'); return []; }   // damaged data: keep a copy, start clean
+    return arr.filter(validComment);
+  }
+  function saveComments(list) { return lsSet(CKEY, JSON.stringify(list)); }
+  function myUid() { var u = activeUser(); return String((u && (u.email || u.name)) || '').toLowerCase(); }
+  function thDate(ts) {
+    try { return new Date(ts).toLocaleString('th-TH', { dateStyle: 'medium', timeStyle: 'short' }); }
+    catch (e) { return new Date(ts).toLocaleString(); }
+  }
+  function starsText(n) { var s = ''; for (var i = 1; i <= 5; i++) s += i <= n ? '★' : '☆'; return s; }
+
+  function setMsg(text, kind) {
+    var m = $('cm-msg'); if (!m) return;
+    m.textContent = text || '';
+    m.className = 'text-sm font-bold rounded-xl px-3 py-2 mt-3 ' + (text ? '' : 'hidden ') +
+      (kind === 'ok' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-red-50 text-red-600 border border-red-200');
+  }
+  function paintRatingPicker() {
+    var b = document.querySelectorAll('#cm-stars .vm-star');
+    for (var i = 0; i < b.length; i++) {
+      var on = (i + 1) <= selRating;
+      b[i].classList.toggle('on', on);
+      b[i].setAttribute('aria-checked', (i + 1) === selRating ? 'true' : 'false');
+    }
+    var l = $('cm-rating-label'); if (l) l.textContent = selRating ? selRating + ' / 5 ดาว' : 'แตะดาวเพื่อให้คะแนน';
+  }
+  function renderCommunity() {
+    var list = loadComments().sort(function (a, b) { return b.ts - a.ts; });
+    var n = list.length, sum = 0, dist = [0, 0, 0, 0, 0, 0], i;
+    for (i = 0; i < n; i++) { sum += list[i].rating; dist[list[i].rating]++; }
+    var avg = n ? sum / n : 0;
+    $('cm-avg').textContent = n ? avg.toFixed(1) : '–';
+    $('cm-avg-stars').textContent = starsText(Math.round(avg));
+    $('cm-total').textContent = n + ' รีวิว';
+    var bars = $('cm-bars'); bars.textContent = '';
+    for (var r = 5; r >= 1; r--) {
+      var row = document.createElement('div'); row.className = 'flex items-center gap-2 text-xs text-slate-600';
+      var lab = document.createElement('span'); lab.className = 'w-8 shrink-0 font-bold'; lab.textContent = r + ' ★';
+      var track = document.createElement('div'); track.className = 'flex-1 h-2 rounded-full bg-purple-100 overflow-hidden';
+      var fill = document.createElement('div'); fill.className = 'h-full rounded-full gradient-btn'; fill.style.width = (n ? Math.round(dist[r] * 100 / n) : 0) + '%';
+      var cnt = document.createElement('span'); cnt.className = 'w-6 text-right'; cnt.textContent = dist[r];
+      track.appendChild(fill); row.appendChild(lab); row.appendChild(track); row.appendChild(cnt); bars.appendChild(row);
+    }
+    var nameEl = $('cm-name');
+    if (nameEl && !nameEl.value) {
+      var u = activeUser(); var nm = u && u.name ? String(u.name) : '';
+      if (nm && nm.indexOf('@') < 0) nameEl.value = nm.slice(0, 30);   // never pre-fill an e-mail address
+    }
+    var box = $('cm-list'); box.textContent = '';
+    if (!n) {
+      var empty = document.createElement('div');
+      empty.className = 'text-center text-slate-500 text-sm py-8';
+      empty.textContent = 'ยังไม่มีความคิดเห็นในเบราว์เซอร์นี้ มาเป็นคนแรกที่แสดงความคิดเห็นกันเลย 💜';
+      box.appendChild(empty);
+    } else {
+      var me = myUid(), now = Date.now(), frag = document.createDocumentFragment();
+      list.slice(0, shown).forEach(function (c) { frag.appendChild(commentEl(c, me, now)); });
+      box.appendChild(frag);
+    }
+    var more = $('cm-more'); if (more) more.classList.toggle('hidden', n <= shown);
+    paintRatingPicker();
+  }
+  function commentEl(c, me, now) {
+    var card = document.createElement('div');
+    card.className = 'rounded-2xl p-3.5 border border-purple-100 bg-white/70';
+    var top = document.createElement('div'); top.className = 'flex items-start justify-between gap-2 flex-wrap';
+    var left = document.createElement('div');
+    var nm = document.createElement('span'); nm.className = 'font-extrabold text-slate-800 text-sm'; nm.textContent = c.name;
+    left.appendChild(nm);
+    var mine = c.uid === me;
+    if (mine) { var b = document.createElement('span'); b.className = 'ml-2 text-[11px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full'; b.textContent = 'ของคุณ'; left.appendChild(b); }
+    var st = document.createElement('span'); st.className = 'text-amber-500 text-sm tracking-wider'; st.textContent = starsText(c.rating);
+    top.appendChild(left); top.appendChild(st);
+    var date = document.createElement('div'); date.className = 'text-[12px] text-slate-400 mt-0.5'; date.textContent = thDate(c.ts);
+    var p = document.createElement('p'); p.className = 'text-sm text-slate-700 mt-2 leading-relaxed'; p.style.whiteSpace = 'pre-wrap'; p.style.wordBreak = 'break-word'; p.textContent = c.text;
+    card.appendChild(top); card.appendChild(date); card.appendChild(p);
+    if (mine) {
+      var age = Math.max(0, now - c.ts), foot = document.createElement('div'); foot.className = 'flex items-center justify-between gap-2 mt-3 flex-wrap';
+      if (age <= DELETE_MS) {
+        var days = Math.max(1, Math.ceil((DELETE_MS - age) / 86400000));
+        var hint = document.createElement('span'); hint.className = 'text-[12px] text-slate-400'; hint.textContent = 'ลบได้อีกประมาณ ' + days + ' วัน';
+        var del = document.createElement('button'); del.type = 'button'; del.setAttribute('data-del', c.id);
+        del.className = 'px-3 py-1.5 rounded-xl bg-red-50 text-red-600 text-xs font-bold hover:bg-red-100 transition'; del.textContent = '🗑 ลบความคิดเห็น';
+        foot.appendChild(hint); foot.appendChild(del);
+      } else {
+        var no = document.createElement('span'); no.className = 'text-[12px] text-slate-400'; no.textContent = 'เกิน 7 วันแล้ว ไม่สามารถลบได้';
+        foot.appendChild(no);
+      }
+      card.appendChild(foot);
+    }
+    return card;
+  }
+
+  window.vmSubmitComment = function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (posting) return;
+    posting = true;
+    try {
+      if (!activeUser()) { setMsg('กรุณาเข้าสู่ระบบก่อนแสดงความคิดเห็นนะครับ'); return; }
+      var name = ($('cm-name').value || '').replace(/\s+/g, ' ').trim();
+      var text = ($('cm-text').value || '').replace(/[ \t]+\n/g, '\n').trim();
+      if (!selRating) { setMsg('กรุณาให้คะแนนดาว 1–5 ดาวก่อนส่งนะครับ'); return; }
+      if (name.length < 2 || name.length > 30) { setMsg('ชื่อที่แสดงต้องมี 2–30 ตัวอักษรนะครับ'); return; }
+      if (name.indexOf('@') >= 0) { setMsg('เพื่อความเป็นส่วนตัว กรุณาอย่าใช้อีเมลเป็นชื่อที่แสดงนะครับ'); return; }
+      if (text.length < MINLEN) { setMsg('ความคิดเห็นสั้นเกินไป กรุณาเขียนอย่างน้อย ' + MINLEN + ' ตัวอักษรนะครับ'); return; }
+      if (text.length > MAXLEN) { setMsg('ความคิดเห็นยาวเกินไป ไม่เกิน ' + MAXLEN + ' ตัวอักษรนะครับ'); return; }
+      if (hasBadWord(name) || hasBadWord(text)) {
+        setMsg('ข้อความของคุณมีถ้อยคำที่ไม่เหมาะสม ระบบจึงยังไม่ส่งให้ กรุณาแก้ไขให้สุภาพแล้วส่งใหม่อีกครั้งนะครับ 🙏'); return;
+      }
+      if (looksLikeSpam(name) || looksLikeSpam(text)) {
+        setMsg('ข้อความนี้ดูคล้ายสแปม (เช่น มีลิงก์ ตัวเลขยาว หรือพิมพ์ซ้ำๆ) กรุณาแก้ไขแล้วส่งใหม่นะครับ'); return;
+      }
+      var now = Date.now(), last = Number(lsGet(LAST_KEY)) || 0;
+      if (now - last < COOLDOWN && now >= last) {
+        setMsg('ส่งบ่อยเกินไป กรุณารออีก ' + Math.ceil((COOLDOWN - (now - last)) / 1000) + ' วินาทีนะครับ'); return;
+      }
+      var list = loadComments(), key = normKey(text);
+      var recent = list.slice().sort(function (a, b) { return b.ts - a.ts; }).slice(0, 50);
+      for (var i = 0; i < recent.length; i++) {
+        if (normKey(recent[i].text) === key) { setMsg('ข้อความนี้ถูกส่งไปแล้ว ไม่สามารถส่งซ้ำได้นะครับ'); return; }
+      }
+      list.push({ id: now.toString(36) + Math.random().toString(36).slice(2, 8), name: name, rating: selRating, text: text, ts: now, uid: myUid() });
+      list.sort(function (a, b) { return a.ts - b.ts; });
+      if (list.length > MAXSTORE) list = list.slice(list.length - MAXSTORE);
+      if (!saveComments(list)) { setMsg('บันทึกไม่สำเร็จ (พื้นที่เก็บข้อมูลเต็มหรือเบราว์เซอร์ปิดการจัดเก็บ) กรุณาลองใหม่อีกครั้ง'); return; }
+      lsSet(LAST_KEY, String(now));
+      $('cm-text').value = ''; selRating = 0; shown = PAGE; updateCharCount();
+      renderCommunity();
+      setMsg('ส่งความคิดเห็นเรียบร้อยแล้ว ขอบคุณมากครับ 💜', 'ok');
+    } catch (err) {
+      setMsg('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+    } finally { posting = false; }
+  };
+  function updateCharCount() { var t = $('cm-text'), c = $('cm-chars'); if (t && c) c.textContent = t.value.length + '/' + MAXLEN; }
+  function doDelete(id) {
+    var list = loadComments(), me = myUid(), now = Date.now(), hit = null, i;
+    for (i = 0; i < list.length; i++) if (list[i].id === id) hit = list[i];
+    if (!hit) { renderCommunity(); return; }
+    if (hit.uid !== me) { setMsg('ลบได้เฉพาะความคิดเห็นของตัวเองเท่านั้นนะครับ'); return; }
+    if (now - hit.ts > DELETE_MS) { setMsg('ความคิดเห็นนี้โพสต์เกิน 7 วันแล้ว จึงไม่สามารถลบได้'); renderCommunity(); return; }
+    if (!saveComments(list.filter(function (c) { return c.id !== id; }))) { setMsg('ลบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง'); return; }
+    renderCommunity(); setMsg('ลบความคิดเห็นแล้ว', 'ok');
+  }
+
+  /* =====================================================================
+     5) GAMES – Vocabulary Quiz (playable) + 4 coming soon
+     ===================================================================== */
+  var WORDS = [
+    ['apple', 'แอปเปิล'], ['book', 'หนังสือ'], ['water', 'น้ำ'], ['house', 'บ้าน'], ['friend', 'เพื่อน'], ['teacher', 'ครู'],
+    ['student', 'นักเรียน'], ['school', 'โรงเรียน'], ['family', 'ครอบครัว'], ['happy', 'มีความสุข'], ['sad', 'เศร้า'],
+    ['beautiful', 'สวยงาม'], ['big', 'ใหญ่'], ['small', 'เล็ก'], ['fast', 'เร็ว'], ['slow', 'ช้า'], ['hot', 'ร้อน'], ['cold', 'หนาว'],
+    ['morning', 'ตอนเช้า'], ['night', 'กลางคืน'], ['breakfast', 'อาหารเช้า'], ['dinner', 'อาหารเย็น'], ['market', 'ตลาด'],
+    ['hospital', 'โรงพยาบาล'], ['doctor', 'หมอ'], ['money', 'เงิน'], ['time', 'เวลา'], ['library', 'ห้องสมุด'], ['kitchen', 'ห้องครัว'],
+    ['window', 'หน้าต่าง'], ['door', 'ประตู'], ['chair', 'เก้าอี้'], ['table', 'โต๊ะ'], ['mother', 'แม่'], ['father', 'พ่อ'],
+    ['dog', 'สุนัข'], ['cat', 'แมว'], ['bird', 'นก'], ['fish', 'ปลา'], ['tree', 'ต้นไม้'], ['flower', 'ดอกไม้'], ['river', 'แม่น้ำ'],
+    ['mountain', 'ภูเขา'], ['sun', 'ดวงอาทิตย์'], ['moon', 'ดวงจันทร์'], ['rain', 'ฝน'], ['travel', 'เดินทาง'], ['practice', 'ฝึกฝน']
+  ];
+  var BEST_KEY = 'vm_game_quiz_best_v1', ROUNDS = 10;
+  var quiz = null, gameTimer = null;
+
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function bestScore() { return Number(lsGet(BEST_KEY)) || 0; }
+  function stopGame() { if (gameTimer) { clearTimeout(gameTimer); gameTimer = null; } quiz = null; }
+  function renderGamesHome() {
+    stopGame();
+    $('game-play').classList.add('hidden'); $('game-play').textContent = '';
+    $('games-menu').classList.remove('hidden');
+    var b = $('quiz-best'); if (b) b.textContent = (LANG === 'en' ? '🏆 High score: ' : '🏆 คะแนนสูงสุด: ') + bestScore();
+  }
+  window.vmStartQuiz = function () {
+    stopGame();
+    var pool = shuffle(WORDS.slice()).slice(0, ROUNDS);
+    var qs = pool.map(function (p) {
+      var wrong = shuffle(WORDS.filter(function (x) { return x[0] !== p[0]; })).slice(0, 3).map(function (x) { return x[1]; });
+      return { w: p[0], t: p[1], opts: shuffle(wrong.concat([p[1]])) };
+    });
+    quiz = { qs: qs, i: 0, score: 0, correct: 0, streak: 0, locked: false };
+    $('games-menu').classList.add('hidden');
+    $('game-play').classList.remove('hidden');
+    if (typeof popIn === 'function') popIn($('game-play'));
+    renderQuestion();
+  };
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function renderQuestion() {
+    if (!quiz) return;
+    var q = quiz.qs[quiz.i], box = $('game-play');
+    var html = '' +
+      '<div class="flex items-center justify-between gap-2 mb-3">' +
+        '<button type="button" data-act="menu" class="vm-back">← เลือกเกม</button>' +
+        '<div class="text-xs sm:text-sm font-bold text-purple-700">ข้อ ' + (quiz.i + 1) + '/' + ROUNDS + '</div>' +
+        '<div class="text-xs sm:text-sm font-extrabold text-pink-600">⭐ ' + quiz.score + '</div>' +
+      '</div>' +
+      '<div class="h-2 rounded-full bg-purple-100 overflow-hidden mb-4"><div class="h-full gradient-btn rounded-full transition-all" style="width:' + Math.round(quiz.i * 100 / ROUNDS) + '%"></div></div>' +
+      '<div class="text-center rounded-2xl bg-white/60 border border-purple-100 py-5 mb-4">' +
+        '<div class="text-xs text-slate-500 mb-1">คำนี้แปลว่าอะไร?</div>' +
+        '<div class="text-3xl sm:text-4xl font-extrabold gradient-text">' + esc(q.w) + '</div>' +
+        '<button type="button" data-act="speak" class="mt-3 px-4 py-1.5 rounded-xl gradient-btn text-white text-xs font-bold shadow-md active:scale-95 transition">🔊 ฟังเสียง</button>' +
+        (quiz.streak >= 2 ? '<div class="text-xs font-bold text-amber-600 mt-2">🔥 ถูกติดกัน ' + quiz.streak + ' ข้อ</div>' : '') +
+      '</div>' +
+      '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">' +
+      q.opts.map(function (o, idx) { return '<button type="button" data-act="opt" data-idx="' + idx + '" class="vm-opt">' + esc(o) + '</button>'; }).join('') +
+      '</div>' +
+      '<div id="quiz-feedback" class="text-center text-sm font-bold mt-4 min-h-[1.5rem]" aria-live="polite"></div>' +
+      '<div class="text-center mt-2"><button type="button" data-act="next" id="quiz-next" class="hidden px-5 py-2 rounded-xl bg-purple-50 text-purple-700 text-sm font-bold hover:bg-purple-100">ข้อต่อไป →</button></div>';
+    box.innerHTML = html;
+  }
+  function answer(idx) {
+    if (!quiz || quiz.locked) return;      // ignore repeated taps
+    quiz.locked = true;
+    var q = quiz.qs[quiz.i], btns = document.querySelectorAll('#game-play .vm-opt'), ok = q.opts[idx] === q.t, fb = $('quiz-feedback');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].disabled = true;
+      if (q.opts[i] === q.t) btns[i].classList.add('right');
+      else if (i === idx) btns[i].classList.add('wrong');
+    }
+    if (ok) {
+      var gain = 10 + Math.min(quiz.streak, 5) * 2;
+      quiz.score += gain; quiz.correct++; quiz.streak++;
+      fb.textContent = '✅ ถูกต้อง! +' + gain + ' คะแนน'; fb.className = 'text-center text-sm font-bold mt-4 text-emerald-600';
+    } else {
+      quiz.streak = 0;
+      fb.textContent = '❌ ยังไม่ถูก คำตอบคือ "' + q.t + '"'; fb.className = 'text-center text-sm font-bold mt-4 text-red-500';
+    }
+    $('quiz-next').classList.remove('hidden');
+    if (gameTimer) clearTimeout(gameTimer);
+    gameTimer = setTimeout(nextQuestion, 1500);
+  }
+  function nextQuestion() {
+    if (gameTimer) { clearTimeout(gameTimer); gameTimer = null; }
+    if (!quiz || !quiz.locked) return;
+    quiz.i++; quiz.locked = false;
+    if (quiz.i >= ROUNDS) finishQuiz(); else renderQuestion();
+  }
+  function finishQuiz() {
+    var prev = bestScore(), isBest = quiz.score > prev;
+    if (isBest) lsSet(BEST_KEY, String(quiz.score));
+    var pct = Math.round(quiz.correct * 100 / ROUNDS);
+    var msg = pct >= 80 ? 'ยอดเยี่ยมมาก! 🎉' : pct >= 50 ? 'ทำได้ดีเลย! 👏' : 'ไม่เป็นไร ลองใหม่อีกครั้งนะ 💪';
+    $('game-play').innerHTML = '' +
+      '<div class="text-center py-4">' +
+        '<div class="text-5xl mb-2">🏁</div>' +
+        '<div class="text-xl font-extrabold gradient-text mb-1">จบเกมแล้ว</div>' +
+        '<div class="text-sm text-slate-600 mb-4">' + msg + '</div>' +
+        '<div class="grid grid-cols-3 gap-2 max-w-sm mx-auto mb-4">' +
+          '<div class="rounded-2xl bg-white/70 border border-purple-100 p-3"><div class="text-[12px] text-slate-500">คะแนน</div><div class="text-xl font-extrabold text-pink-600">' + quiz.score + '</div></div>' +
+          '<div class="rounded-2xl bg-white/70 border border-purple-100 p-3"><div class="text-[12px] text-slate-500">ตอบถูก</div><div class="text-xl font-extrabold text-purple-700">' + quiz.correct + '/' + ROUNDS + '</div></div>' +
+          '<div class="rounded-2xl bg-white/70 border border-purple-100 p-3"><div class="text-[12px] text-slate-500">สูงสุด</div><div class="text-xl font-extrabold text-amber-600">' + Math.max(prev, quiz.score) + '</div></div>' +
+        '</div>' +
+        (isBest ? '<div class="text-sm font-bold text-amber-600 mb-3">🏆 สถิติใหม่!</div>' : '') +
+        '<div class="flex gap-2 justify-center flex-wrap">' +
+          '<button type="button" data-act="again" class="px-5 py-2.5 rounded-xl gradient-btn text-white text-sm font-bold shadow-md active:scale-95 transition">เล่นอีกครั้ง</button>' +
+          '<button type="button" data-act="menu" class="vm-back">เลือกเกมอื่น</button>' +
+        '</div>' +
+      '</div>';
+    quiz = null;
+  }
+
+  /* =====================================================================
+     6) INIT (runs after the original page setup)
+     ===================================================================== */
+  window.addEventListener('DOMContentLoaded', function () {
+    // stars
+    var sb = $('cm-stars');
+    if (sb) sb.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('.vm-star'); if (!b) return;
+      selRating = Number(b.getAttribute('data-v')) || 0; paintRatingPicker();
+    });
+    var ta = $('cm-text'); if (ta) ta.addEventListener('input', updateCharCount);
+    var list = $('cm-list');
+    if (list) list.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-del]'); if (!b) return;
+      if (b.getAttribute('data-armed') === '1') { doDelete(b.getAttribute('data-del')); return; }
+      b.setAttribute('data-armed', '1'); b.textContent = 'แตะอีกครั้งเพื่อยืนยันลบ';
+      setTimeout(function () { if (b.isConnected) { b.removeAttribute('data-armed'); b.textContent = '🗑 ลบความคิดเห็น'; } }, 3000);
+    });
+    var more = $('cm-more'); if (more) more.addEventListener('click', function () { shown += PAGE; renderCommunity(); });
+    var gp = $('game-play');
+    if (gp) gp.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-act]'); if (!b) return;
+      var act = b.getAttribute('data-act');
+      if (act === 'opt') answer(Number(b.getAttribute('data-idx')));
+      else if (act === 'next') nextQuestion();
+      else if (act === 'speak' && quiz && typeof speakText === 'function') speakText(quiz.qs[quiz.i].w);
+      else if (act === 'again') window.vmStartQuiz();
+      else if (act === 'menu') renderGamesHome();
+    });
+    window.addEventListener('storage', function (e) {
+      if (e.key === CKEY && currentPage === 'community') renderCommunity();
+    });
+    updateCharCount();
+
+    // open the page named in the address (e.g. after refresh) – only when logged in
+    if (activeUser() && INITIAL_HASH && INITIAL_HASH !== 'home' && ROUTES.indexOf(INITIAL_HASH) >= 0) {
+      popping = true;
+      try { renderPage(INITIAL_HASH); } finally { popping = false; }
+      try { history.replaceState({ vm: INITIAL_HASH }, '', '#' + INITIAL_HASH); } catch (e) {}
+    }
+    if (!presenceTimer) presenceTimer = setInterval(presenceTick, 5000);
+    presenceTick();
+  });
+})();
   </script>
 </body>
 </html>
